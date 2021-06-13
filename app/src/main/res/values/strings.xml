@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">QuocHuyApplication</string>
+    <string name="img_description">iamge description</string>
+    <string name="title_import">Nhập hàng</string>
+    <string name="title_export">Bán hàng</string>
+    <string name="title_money">Thu chi</string>
+    <string name="title_customer">Khách hàng</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

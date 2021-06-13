@@ -1,0 +1,103 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'kotlin-platform-android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'realm-android'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.vn.quochuyapplication"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    kapt {
+        generateStubs = true
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    /**-------------------Testing libs------------------------------------------**/
+    testImplementation TestLibraries.unitTest
+    testImplementation TestLibraries.junit
+
+    implementation AndroidLibraries.androidXActivityJava
+    implementation AndroidLibraries.androidXActivityKotlin
+    implementation AndroidLibraries.legacySupport
+    implementation AndroidLibraries.androidSupportDesign
+    implementation AndroidLibraries.cardView
+    implementation AndroidLibraries.recyclerView
+    implementation AndroidLibraries.androidXAppCompat
+    implementation AndroidLibraries.androidAppCompat
+    implementation AndroidLibraries.multidex
+    implementation AndroidLibraries.annotationX
+    implementation AndroidLibraries.coreKtx
+    implementation AndroidLibraries.constraintLayout
+    implementation AndroidLibraries.navigation
+    implementation AndroidLibraries.navigationFrag
+    //Live Data
+    implementation AndroidLibraries.databinding
+    implementation AndroidLibraries.lifecycleExtensions
+    implementation AndroidLibraries.lifecycleLiveData
+    implementation AndroidLibraries.lifecycleViewModel
+    annotationProcessor AndroidLibraries.lifecycleCompiler
+
+    implementation UILibraries.material
+    implementation UILibraries.meterialLifecyle
+    implementation UILibraries.materialDialog
+    implementation UILibraries.materialBottomDialog
+    implementation UILibraries.dimensionSDP
+    implementation UILibraries.dimensionSSP
+
+    implementation Libraries.dagger
+    implementation Libraries.daggerAndroid
+    implementation Libraries.daggerAndroidSupport
+    kapt Libraries.daggerCompiler
+    kapt Libraries.daggerAndroidProcessor
+    kaptAndroidTest Libraries.daggerCompiler
+    implementation Libraries.eventBus
+    implementation Libraries.rxJava
+    implementation Libraries.rxAndroid
+    implementation Libraries.gson
+    implementation Libraries.picasso
+    implementation Libraries.glide
+    annotationProcessor Libraries.glideAnnotation
+
+
+    implementation KotlinLibraries.kotlinCoroutineCore
+    implementation KotlinLibraries.kotlinCoroutineCoreCommon
+    implementation KotlinLibraries.kotlinStd
+    implementation KotlinLibraries.kotlinReflect
+
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_import"
+        android:icon="@drawable/ic_baseline_import_export_24"
+        android:title="@string/title_import" />
+
+    <item
+        android:id="@+id/navigation_export"
+        android:icon="@drawable/ic_baseline_folder_shared_24"
+        android:title="@string/title_export" />
+
+    <item
+        android:id="@+id/navigation_money"
+        android:icon="@drawable/ic_baseline_monetization_on_24"
+        android:title="@string/title_money" />
+    <item
+        android:id="@+id/navigation_customer"
+        android:icon="@drawable/ic_baseline_group_24"
+        android:title="@string/title_customer" />
+
+</menu>
