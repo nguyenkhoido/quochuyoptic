@@ -8,7 +8,7 @@ import java.util.*
 
 abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerView.Adapter<VH> {
     private val mLock = Any()
-    private var mObjects: MutableList<T>
+    private var mObjects: MutableList<T>?
     var context: Context
         private set
     private var previousIndex = -1
@@ -19,17 +19,17 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
         mObjects = ArrayList()
     }
 
-    constructor(context: Context, objects: MutableList<T>) {
+    constructor(context: Context, objects: MutableList<T>?) {
         this.context = context
         mObjects = objects
     }
 
     override fun getItemCount(): Int {
-        return mObjects.size
+        return mObjects?.size?:0
     }
 
     fun getItem(position: Int): T {
-        return mObjects[position]
+        return mObjects?.get(position)!!
     }
 
     override fun getItemId(position: Int): Long {
@@ -37,19 +37,19 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
     }
 
     val isEmpty: Boolean
-        get() = mObjects.isEmpty()
+        get() = mObjects?.isEmpty() == true
 
     fun add(`object`: T) {
         synchronized(mLock) {
-            val topIndex = mObjects.size
-            mObjects.add(`object`)
-            notifyItemInserted(topIndex)
+            val topIndex = mObjects?.size
+            mObjects?.add(`object`)
+            topIndex?.let { notifyItemInserted(it) }
         }
     }
 
     fun addAll(collection: Collection<T>?) {
         synchronized(mLock) {
-            mObjects.addAll(collection!!)
+            mObjects?.addAll(collection!!)
             notifyItemInserted(itemCount)
         }
     }
@@ -64,7 +64,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
 
     fun insert(`object`: T, index: Int) {
         synchronized(mLock) {
-            mObjects.add(index, `object`)
+            mObjects?.add(index, `object`)
             notifyItemInserted(index)
         }
     }
@@ -72,7 +72,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
     fun remove(`object`: T) {
         synchronized(mLock) {
             val position = getPosition(`object`)
-            mObjects.remove(`object`)
+            mObjects?.remove(`object`)
             notifyItemRemoved(position)
         }
         notifyDataSetChanged()
@@ -81,7 +81,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
     fun remove(position: Int) {
         synchronized(mLock) {
             if (position < itemCount) {
-                mObjects.removeAt(position)
+                mObjects?.removeAt(position)
                 notifyItemRemoved(position)
             }
         }
@@ -89,13 +89,13 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
 
     fun clear() {
         synchronized(mLock) {
-            mObjects.clear()
+            mObjects?.clear()
             notifyDataSetChanged()
         }
     }
 
     fun getPosition(item: T): Int {
-        return mObjects.indexOf(item)
+        return mObjects?.indexOf(item)!!
     }
 
     /**
@@ -114,7 +114,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder?> : RecyclerV
      * @return the data list
      */
     val dataList: List<T>
-        get() = mObjects
+        get() = mObjects!!
 
     /**
      * Update.

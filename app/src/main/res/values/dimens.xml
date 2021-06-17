@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="edt_text_height">@dimen/_42sdp</dimen>
+    <dimen name="text_view_size">@dimen/_12ssp</dimen>
 </resources>

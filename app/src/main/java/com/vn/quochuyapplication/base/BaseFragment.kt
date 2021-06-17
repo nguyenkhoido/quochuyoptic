@@ -31,6 +31,7 @@ abstract class BaseFragment<T : BasePresenter<*>> : SimpleFragment(), BaseView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initInject()
+        initDataAndEvents()
         //presenter!!.attachView(this)
     }
 

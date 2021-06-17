@@ -27,13 +27,12 @@ class RealmConfig {
     }
 
     init {
-        val key = ByteArray(64)
-        SecureRandom().nextBytes(key)
         val config = RealmConfiguration.Builder()
             .name(AppConstants.REALM_DEFAULT_NAME)
             .schemaVersion(0)
+            .allowQueriesOnUiThread(true)
+            .allowWritesOnUiThread(true)
             .deleteRealmIfMigrationNeeded()
-            .encryptionKey(key)
             .build()
         realm = try {
             Realm.getInstance(config)

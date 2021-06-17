@@ -10,13 +10,13 @@ import com.vn.quochuyapplication.adapter.CompanyAdapter.CompanyViewHolder
 import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
 import com.vn.quochuyapplication.data.model.Company
+import com.vn.quochuyapplication.ui.input.ImportFragment
 
 class CompanyAdapter constructor(
     context: Context,
-    companyList: MutableList<Company?>,
+    companyList: ArrayList<Company?>,
     private val itemCompanyClick: ItemCompanyClick
 ) : BaseRecyclerAdapter<Company?, CompanyViewHolder?>(context, companyList) {
-
     interface ItemCompanyClick {
         fun onItemClick(company: Company?)
     }
@@ -28,8 +28,8 @@ class CompanyAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: CompanyViewHolder, position: Int) {
-        val itemCompanyName = holder.itemCompanyName
-        itemCompanyName.text = dataList[position]?.name
+        holder.itemCompanyName.text = dataList[position]?.name
+        holder.itemCompanyCity.text = dataList[position]?.city
     }
 
     inner class CompanyViewHolder(
@@ -38,6 +38,8 @@ class CompanyAdapter constructor(
     ) : BaseViewHolder(companyView), View.OnClickListener {
         val itemCompanyName: TextView =
             companyView.findViewById<View>(R.id.text_company_name) as TextView
+        val itemCompanyCity: TextView =
+            companyView.findViewById<View>(R.id.text_company_city) as TextView
 
         override fun onBind(position: Int) {}
         override fun onClick(p0: View) {

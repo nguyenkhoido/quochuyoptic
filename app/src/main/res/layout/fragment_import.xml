@@ -6,7 +6,7 @@
     android:tag="layout/fragment_import_0">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_supplier"
+        android:id="@+id/recycle_company"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
