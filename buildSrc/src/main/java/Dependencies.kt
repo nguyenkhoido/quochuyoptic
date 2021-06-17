@@ -70,7 +70,7 @@ object Versions {
     const val fireBasePerf = "19.0.2"
     const val fireBaseAuth = "19.1.0"
     const val googleZXing = "3.3.3"
-    const val zXing = "3.4.0"
+    const val zXing = "4.2.0"
     const val swipeLayout = "1.2.0@aar"
 
 
@@ -119,7 +119,6 @@ object Libraries {
     const val retrofitGsonConverter =
         "com.squareup.retrofit2:converter-gson:${Versions.retrofitGson}"
     const val retrofitAdapter = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofitAdapter}"
-
     /*const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
     const val retrofitConverterMoshi =

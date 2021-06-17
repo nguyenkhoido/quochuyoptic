@@ -1,41 +1,25 @@
 package com.vn.quochuyapplication.ui.export
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.vn.quochuyapplication.databinding.FragmentExportBinding
+import com.vn.quochuyapplication.R
+import com.vn.quochuyapplication.base.BaseFragment
+import com.vn.quochuyapplication.ui.customer.CustomerFragment
+import javax.inject.Inject
 
-class ExportFragment : Fragment() {
-
-    private lateinit var exportViewModel: ExportViewModel
-    private var _binding: FragmentExportBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        exportViewModel =
-            ViewModelProvider(this).get(ExportViewModel::class.java)
-
-        _binding = FragmentExportBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-
-        return root
+class ExportFragment: BaseFragment<ExportPresenter>(), IExportView {
+    companion object {
+        fun newInstance(): ExportFragment {
+            return ExportFragment()
+        }
+    }
+    override fun initViews() {
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun initDataAndEvents() {
+    }
+
+    override fun getLayoutResId() = R.layout.fragment_export
+
+    override fun initInject() {
+        fragmentComponent().inject(this)
     }
 }

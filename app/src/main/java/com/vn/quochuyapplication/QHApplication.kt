@@ -12,7 +12,7 @@ import com.vn.quochuyapplication.base.di.module.DBModule
 import io.realm.Realm
 
 class QHApplication : Application(), Application.ActivityLifecycleCallbacks {
-    private var mAppComponent: AppComponent? = null
+    var mAppComponent: AppComponent? = null
     private lateinit var mGSon: Gson
 
     override fun onCreate() {

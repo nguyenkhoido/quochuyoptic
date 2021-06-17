@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.vn.quochuyapplication"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -93,6 +93,8 @@ dependencies {
     implementation Libraries.picasso
     implementation Libraries.glide
     annotationProcessor Libraries.glideAnnotation
+    implementation Libraries.zXing
+    implementation Libraries.googleZXing
 
 
     implementation KotlinLibraries.kotlinCoroutineCore
