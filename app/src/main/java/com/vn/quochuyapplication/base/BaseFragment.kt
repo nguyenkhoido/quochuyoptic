@@ -36,7 +36,7 @@ abstract class BaseFragment<T : BasePresenter<*>> : SimpleFragment(), BaseView {
     }
 
     override fun onDestroyView() {
-        presenter!!.detachView()
+        //presenter!!.detachView()
         super.onDestroyView()
     }
 

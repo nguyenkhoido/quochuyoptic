@@ -15,7 +15,6 @@ abstract class SimpleFragment : Fragment() {
 
     protected abstract fun initViews()
     protected abstract fun initDataAndEvents()
-    protected abstract fun getLayoutResId(): Int
 
     override fun onAttach(context: Context) {
         mContext = context
@@ -24,11 +23,6 @@ abstract class SimpleFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mRootView = inflater.inflate(getLayoutResId(), container, false)
-        return mRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

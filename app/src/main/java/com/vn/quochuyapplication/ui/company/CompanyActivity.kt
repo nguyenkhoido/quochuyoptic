@@ -1,15 +1,15 @@
 package com.vn.quochuyapplication.ui.company
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.vn.quochuyapplication.R
-import com.vn.quochuyapplication.adapter.ProductAdapter
+import com.vn.quochuyapplication.base.BaseActivity
 import com.vn.quochuyapplication.constant.AppConstants
+import com.vn.quochuyapplication.data.model.IProduct
+import com.vn.quochuyapplication.databinding.ActivityCompanyBinding
+import com.vn.quochuyapplication.presenter.CompanyPresenter
 
-class CompanyActivity : AppCompatActivity() {
+class CompanyActivity : BaseActivity<CompanyPresenter>(), ICompanyInteracted.ICompanyView {
+    lateinit var companyBinding: ActivityCompanyBinding
 
     companion object {
         fun starter(context: Activity, companyName: String) {
@@ -17,10 +17,24 @@ class CompanyActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_company)
+    override fun initInject() {
+        activityComponent.inject(this)
+    }
+
+    override fun initViews() {
+        companyBinding = ActivityCompanyBinding.inflate(layoutInflater)
+        setContentView(companyBinding.root)
+    }
+
+    override fun initDataAndEvents() {
         val companyName = intent.getStringExtra(AppConstants.COMPANY_NAME)
 
+    }
+
+    override fun onGetProductSuccess(productList: MutableList<IProduct>) {
+
+    }
+
+    override fun onGetProductFailed() {
     }
 }

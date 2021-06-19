@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 abstract class SimpleActivity : AppCompatActivity() {
-    protected abstract fun getLayoutId(): Int
     protected abstract fun initViews()
     protected abstract fun initDataAndEvents()
     protected open fun onViewCreated() {}
@@ -13,7 +12,6 @@ abstract class SimpleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
         onViewCreated()
         initViews()
         initDataAndEvents()

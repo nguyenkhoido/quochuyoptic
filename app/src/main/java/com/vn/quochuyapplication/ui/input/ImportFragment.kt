@@ -1,6 +1,9 @@
 package com.vn.quochuyapplication.ui.input
 
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,9 +14,13 @@ import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.adapter.CompanyAdapter
 import com.vn.quochuyapplication.base.BaseFragment
 import com.vn.quochuyapplication.data.model.Company
+import com.vn.quochuyapplication.databinding.FragmentImportBinding
+import com.vn.quochuyapplication.databinding.FragmentMoneyBinding
+import com.vn.quochuyapplication.presenter.ImportPresenter
 import com.vn.quochuyapplication.ui.company.CompanyActivity
 
 class ImportFragment : BaseFragment<ImportPresenter>(), CompanyAdapter.ItemCompanyClick, IImportView {
+    private var _importBinding: FragmentImportBinding? = null
     var companyAdapter: CompanyAdapter? = null
     var companyList: ArrayList<Company?>? = null
 
@@ -21,6 +28,12 @@ class ImportFragment : BaseFragment<ImportPresenter>(), CompanyAdapter.ItemCompa
         fun newInstance(): ImportFragment {
             return ImportFragment()
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _importBinding = FragmentImportBinding.inflate(inflater, container, false)
+        mRootView = _importBinding?.root!!
+        return mRootView
     }
 
     override fun initViews() {
@@ -42,8 +55,6 @@ class ImportFragment : BaseFragment<ImportPresenter>(), CompanyAdapter.ItemCompa
         }
 
     }
-
-    override fun getLayoutResId() = R.layout.fragment_import
 
     override fun initInject() {
         fragmentComponent().inject(this)
