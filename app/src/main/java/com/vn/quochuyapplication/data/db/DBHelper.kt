@@ -11,7 +11,10 @@ interface DBHelper {
     fun getGlassesList(companyName: String?): MutableList<Glasses>?
     fun getLenseList(companyName: String?): MutableList<Lense>?
     fun getOtherProductList(companyName: String?): MutableList<Other>?
+
     fun getProductByCode(productId: String?, companyName: String?): IProduct?
+    fun updateProductByCode(iProduct: IProduct)
+    fun deleteProduct(iProduct: IProduct)
 
     fun <T : IProduct?> saveFrame(t: T)
     fun <T : IProduct?> saveGlasses(t: T)

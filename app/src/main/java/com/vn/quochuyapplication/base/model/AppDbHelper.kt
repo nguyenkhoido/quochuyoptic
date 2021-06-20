@@ -76,5 +76,28 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }
     }
 
+    override fun updateProductByCode(iProduct: IProduct) {
+        realmLocalDB.executeTransaction {
+            it.where(Frame::class.java).equalTo("productCode", iProduct.productCode()).equalTo("companyName", iProduct.productCompanyName()).findFirst()
+        }
+    }
+
+    override fun deleteProduct(iProduct: IProduct) {
+        realmLocalDB.executeTransaction {
+            when (iProduct.productCategory()) {
+                Category.GONG_KINH -> {
+                    it.where(Frame::class.java).equalTo(iProduct.productId(), "frameId")?.findFirst()?.deleteFromRealm()
+                }
+                Category.LENSE -> {
+                }
+                Category.TRONG_KINH -> {
+                }
+                else -> {
+                }
+            }
+
+        }
+    }
+
 
 }

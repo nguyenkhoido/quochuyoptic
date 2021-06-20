@@ -1,73 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@+id/btnAddProduct"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinProductCategory"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_text_height" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
-        <EditText
-            android:id="@+id/edt_name"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_text_height"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:hint="Tên sản phẩm"
-            android:imeOptions="actionNext"
-            android:inputType="text" />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinProductCategory"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edt_text_height" />
 
-        <EditText
-            android:id="@+id/edt_code"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_text_height"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:hint="Mã sản phẩm"
-            android:imeOptions="actionNext"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edt_text_height"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:hint="Tên sản phẩm"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edt_quantity"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_text_height"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:hint="Số lượng"
-            android:imeOptions="actionNext"
-            android:inputType="number" />
+            <EditText
+                android:id="@+id/edt_code"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edt_text_height"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:hint="Mã sản phẩm"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edt_price"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_text_height"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:hint="Giá sản phẩm"
-            android:imeOptions="actionDone"
-            android:inputType="number" />
+            <EditText
+                android:id="@+id/edt_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edt_text_height"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:hint="Số lượng"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
 
-        <EditText
-            android:id="@+id/edt_merged_value"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edt_text_height"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            android:imeOptions="actionDone"
-            android:visibility="gone" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/edt_price"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edt_text_height"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:hint="Giá sản phẩm"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_32sdp"
+                android:fontFamily="sans-serif-black"
+                android:text="Copy nội dung dưới đây đến tạo QR Code"
+                android:textSize="@dimen/text_view_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edt_merged_value"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edt_text_height"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/rounded_rectangle_bg"
+                android:imeOptions="actionDone"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:visibility="visible" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/btnAddProduct"
@@ -75,5 +91,6 @@
         android:layout_height="@dimen/edt_text_height"
         android:layout_margin="@dimen/_8sdp"
         android:text="Thêm"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,14 +3,17 @@ package com.vn.quochuyapplication.base
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.fragment.app.DialogFragment
 
-open class SimpleDialogFragment : DialogFragment() {
+abstract class SimpleDialogFragment : DialogFragment() {
+    abstract fun initData()
     var _mActivity: Activity? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _mActivity = activity
@@ -33,6 +36,11 @@ open class SimpleDialogFragment : DialogFragment() {
             )
         }
         return dialog
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initData()
     }
 
     fun onBackPressed() {

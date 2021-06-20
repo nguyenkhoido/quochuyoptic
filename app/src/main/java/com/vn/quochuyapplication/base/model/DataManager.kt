@@ -37,6 +37,14 @@ class DataManager @Inject constructor(
         return dbHelper.getProductByCode(productId, companyName)!!
     }
 
+    override fun updateProductByCode(iProduct: IProduct) {
+        dbHelper.updateProductByCode(iProduct)
+    }
+
+    override fun deleteProduct(iProduct: IProduct) {
+        dbHelper.deleteProduct(iProduct)
+    }
+
     override fun <T : IProduct?> saveFrame(t: T) {
         dbHelper.saveFrame(t)
     }

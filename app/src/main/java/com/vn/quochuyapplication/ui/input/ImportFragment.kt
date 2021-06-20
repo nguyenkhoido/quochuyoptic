@@ -60,7 +60,7 @@ class ImportFragment : BaseFragment<ImportPresenter>(), CompanyAdapter.ItemCompa
         fragmentComponent().inject(this)
     }
 
-    fun showAddItemDialog() {
+    private fun showAddItemDialog() {
         val dialogView: View = layoutInflater.inflate(R.layout.dialog_add_new_company, null)
         val alertDialog = MaterialAlertDialogBuilder(requireActivity()).setView(dialogView).create()
         val tvAdd = dialogView.findViewById<View>(R.id.tvOK) as TextView
@@ -80,7 +80,7 @@ class ImportFragment : BaseFragment<ImportPresenter>(), CompanyAdapter.ItemCompa
         alertDialog.show()
     }
 
-    fun refreshAdapter() {
+    private fun refreshAdapter() {
         companyAdapter?.update(companyList)
     }
 

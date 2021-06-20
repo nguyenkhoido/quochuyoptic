@@ -2,10 +2,12 @@ package com.vn.quochuyapplication.data.model
 
 import android.os.Parcelable
 
-interface IProduct: Parcelable {
-    fun category(): String?
-    fun companyName(): String?
-    fun price(): Int
+interface IProduct : Parcelable {
+    fun productId(): String
+    fun productCategory(): String?
+    fun productName(): String?
+    fun productCompanyName(): String?
+    fun productPrice(): Int
     fun productCode(): String?
-    fun quantity(): Int
+    fun productQuantity(): Int
 }

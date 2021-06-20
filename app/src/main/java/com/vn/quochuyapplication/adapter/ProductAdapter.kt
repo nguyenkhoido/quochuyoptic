@@ -10,11 +10,11 @@ import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
 import com.vn.quochuyapplication.data.model.IProduct
 
-class ProductAdapter<T : IProduct?>(
+class ProductAdapter(
     context: Context,
-    productList: MutableList<T>,
+    productList: MutableList<IProduct>,
     private val itemProductClick: ItemProductClick
-) : BaseRecyclerAdapter<T, ProductAdapter<T>.ProductViewHolder?>(context, productList) {
+) : BaseRecyclerAdapter<IProduct, ProductAdapter.ProductViewHolder?>(context, productList) {
 
     interface ItemProductClick {
         fun onItemClick(iProduct: IProduct)
@@ -28,9 +28,9 @@ class ProductAdapter<T : IProduct?>(
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product: IProduct = dataList[position] as IProduct
+        val product: IProduct = dataList[position]
         val itemProductName = holder.itemProductName
-        itemProductName.text = product.category()
+        itemProductName.text = product.productName()
         val itemProductCode = holder.itemProductCode
         itemProductCode.text = product.productCode()
     }
@@ -45,11 +45,11 @@ class ProductAdapter<T : IProduct?>(
 
         override fun onBind(position: Int) {}
         override fun onClick(p0: View) {
-            this.itemProductClick.onItemClick(dataList[adapterPosition] as IProduct)
+            this.itemProductClick.onItemClick(dataList[adapterPosition])
         }
 
         override fun onLongClick(p0: View): Boolean {
-            this.itemProductClick.onItemLongClick(dataList[adapterPosition] as IProduct)
+            this.itemProductClick.onItemLongClick(dataList[adapterPosition])
             return true
         }
 
