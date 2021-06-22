@@ -30,9 +30,9 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product: IProduct = dataList[position]
         val itemProductName = holder.itemProductName
-        itemProductName.text = product.productName()
+        itemProductName.text = "Tên SP: " + product.productName()
         val itemProductCode = holder.itemProductCode
-        itemProductCode.text = product.productCode()
+        itemProductCode.text = "Mã SP: " + product.productCode()
     }
 
 

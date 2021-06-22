@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -67,11 +68,15 @@ class ImportFragment : BaseFragment<ImportPresenter>(), CompanyAdapter.ItemCompa
         tvAdd.setOnClickListener {
             val company = Company()
             company.name = dialogView.findViewById<EditText>(R.id.edt_company_name).text.toString()
-            company.city = "Việt Nam"
-            presenter.dataManager.saveCompany(company)
-            companyList?.add(company)
-            refreshAdapter()
-            alertDialog.dismiss()
+            if (company.name.isEmpty()) {
+                Toast.makeText(mContext!!, "Tên công ty không được bỏ trống ", Toast.LENGTH_SHORT).show()
+            } else {
+                company.city = "Việt Nam"
+                presenter.dataManager.saveCompany(company)
+                companyList?.add(company)
+                refreshAdapter()
+                alertDialog.dismiss()
+            }
         }
         val tvCancel = dialogView.findViewById<View>(R.id.tvCancel) as TextView
         tvCancel.setOnClickListener {

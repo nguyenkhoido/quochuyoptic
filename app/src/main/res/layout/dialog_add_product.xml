@@ -23,65 +23,105 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edt_text_height" />
 
-            <EditText
-                android:id="@+id/edt_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_product_name"
+                style="@style/MaterialEditText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edt_text_height"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:hint="Tên sản phẩm"
-                android:imeOptions="actionNext"
-                android:inputType="text" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Tên sản phẩm">
 
-            <EditText
-                android:id="@+id/edt_code"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edt_text_height"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:hint="Mã sản phẩm"
-                android:imeOptions="actionNext"
-                android:inputType="text" />
+                <EditText
+                    android:id="@+id/edt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/edt_quantity"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_code"
+                style="@style/MaterialEditText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edt_text_height"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:hint="Số lượng"
-                android:imeOptions="actionNext"
-                android:inputType="number" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Mã sản phẩm">
 
-            <EditText
-                android:id="@+id/edt_price"
+                <EditText
+                    android:id="@+id/edt_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_quantity"
+                style="@style/MaterialEditText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edt_text_height"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:hint="Giá sản phẩm"
-                android:imeOptions="actionDone"
-                android:inputType="number" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Số lượng">
+
+                <EditText
+                    android:id="@+id/edt_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_price"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Giá sản phẩm">
+
+                <EditText
+                    android:id="@+id/edt_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:imeOptions="actionDone"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <TextView
+                android:id="@+id/text_merged_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_32sdp"
+                android:layout_marginTop="@dimen/_24sdp"
                 android:fontFamily="sans-serif-black"
-                android:text="Copy nội dung dưới đây đến tạo QR Code"
+                android:text="Copy nội dung dưới đây để tạo QR Code"
+                android:textColor="@android:color/holo_red_dark"
                 android:textSize="@dimen/text_view_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-            <EditText
-                android:id="@+id/edt_merged_value"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_merge"
+                style="@style/MaterialEditText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edt_text_height"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/rounded_rectangle_bg"
-                android:imeOptions="actionDone"
-                android:paddingStart="@dimen/_8sdp"
-                android:paddingEnd="@dimen/_8sdp"
-                android:visibility="visible" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Nội dung QR Code"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edt_merged_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:imeOptions="actionDone"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

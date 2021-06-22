@@ -13,7 +13,7 @@ interface DBHelper {
     fun getOtherProductList(companyName: String?): MutableList<Other>?
 
     fun getProductByCode(productId: String?, companyName: String?): IProduct?
-    fun updateProductByCode(iProduct: IProduct)
+    fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String)
     fun deleteProduct(iProduct: IProduct)
 
     fun <T : IProduct?> saveFrame(t: T)

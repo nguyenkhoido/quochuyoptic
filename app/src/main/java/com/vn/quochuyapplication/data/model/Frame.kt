@@ -9,18 +9,17 @@ import java.util.*
 @Parcelize
 @RealmClass
 open class Frame : RealmObject(), IProduct {
-    @PrimaryKey
-    var frameId: String = UUID.randomUUID().toString()
+    companion object {
+        const val PRODUCT_ID_FIELD = "productId"
+    }
+
+    var productId = UUID.randomUUID().toString()
     var category: String? = null
     var companyName: String? = null
     var productCode: String? = null
     var productName: String? = null
     var price = 0
     var quantity = 0
-
-    override fun productId(): String {
-        return this.frameId
-    }
 
     override fun productCategory(): String? {
         return this.category
@@ -44,5 +43,10 @@ open class Frame : RealmObject(), IProduct {
 
     override fun productQuantity(): Int {
         return this.quantity
+    }
+
+    @JvmName("setProductName1")
+    fun setProductName(productName: String?) {
+        this.productName = productName
     }
 }

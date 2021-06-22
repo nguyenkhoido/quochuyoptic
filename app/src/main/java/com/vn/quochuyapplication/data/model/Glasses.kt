@@ -9,8 +9,10 @@ import java.util.*
 @Parcelize
 @RealmClass
 open class Glasses : RealmObject(), IProduct {
-    @PrimaryKey
-    var glassesId: String = UUID.randomUUID().toString()
+    companion object {
+        const val PRODUCT_ID_FIELD = "productId"
+    }
+    var productId = UUID.randomUUID().toString()
     var category: String? = null
     var companyName: String? = null
     var productCode: String? = null
@@ -18,9 +20,6 @@ open class Glasses : RealmObject(), IProduct {
     var price = 0
     var quantity = 0
 
-    override fun productId(): String {
-        return this.glassesId
-    }
 
     override fun productCategory(): String? {
         return this.category

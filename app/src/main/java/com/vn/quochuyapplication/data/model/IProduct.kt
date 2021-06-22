@@ -3,7 +3,6 @@ package com.vn.quochuyapplication.data.model
 import android.os.Parcelable
 
 interface IProduct : Parcelable {
-    fun productId(): String
     fun productCategory(): String?
     fun productName(): String?
     fun productCompanyName(): String?
