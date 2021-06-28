@@ -9,16 +9,20 @@ import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.adapter.MoneyAdapter.MoneyViewHolder
 import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
-import com.vn.quochuyapplication.data.model.Money
+import com.vn.quochuyapplication.data.model.SellItem
 
 class MoneyAdapter constructor(
     context: Context,
-    moneyList: MutableList<Money?>,
+    sellItemList: MutableList<SellItem>?,
     private val itemMoneyClick: ItemMoneyClick
-) : BaseRecyclerAdapter<Money?, MoneyViewHolder?>(context, moneyList) {
+) : BaseRecyclerAdapter<SellItem?, MoneyViewHolder?>(context) {
+
+    init {
+        addAll(sellItemList)
+    }
 
     interface ItemMoneyClick {
-        fun onItemClick(money: Money?)
+        fun onItemClick(sellItem: SellItem?)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoneyViewHolder {

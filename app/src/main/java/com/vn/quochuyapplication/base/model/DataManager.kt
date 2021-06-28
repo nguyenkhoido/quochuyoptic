@@ -2,6 +2,8 @@ package com.vn.quochuyapplication.base.model
 
 import com.vn.quochuyapplication.data.db.DBHelper
 import com.vn.quochuyapplication.data.model.*
+import io.reactivex.Flowable
+import io.realm.RealmResults
 import javax.inject.Inject
 
 class DataManager @Inject constructor(
@@ -33,8 +35,8 @@ class DataManager @Inject constructor(
         return dbHelper.getOtherProductList(companyName)!!
     }
 
-    override fun getProductByCode(productId: String?, companyName: String?): IProduct {
-        return dbHelper.getProductByCode(productId, companyName)!!
+    override fun getProductByCode(productId: String?, category: String?): IProduct? {
+        return dbHelper.getProductByCode(productId, category)
     }
 
     override fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
@@ -43,6 +45,14 @@ class DataManager @Inject constructor(
 
     override fun deleteProduct(iProduct: IProduct) {
         dbHelper.deleteProduct(iProduct)
+    }
+
+    override fun saveSellItem(sellItemList: ArrayList<SellItem>?, onDone: Runnable?, onFail: Runnable?) {
+        dbHelper.saveSellItem(sellItemList, onDone, onFail)
+    }
+
+    override fun getSellItem(): Flowable<RealmResults<SellItem>> {
+        return dbHelper.getSellItem()
     }
 
     override fun <T : IProduct?> saveFrame(t: T) {

@@ -21,11 +21,15 @@
         android:id="@+id/navigation_money"
         android:name="com.vn.quochuyapplication.ui.money.MoneyFragment"
         android:label="@string/title_money"
-        tools:layout="@layout/fragment_money" />
+        tools:layout="@layout/fragment_money">
+        <!--<argument
+            android:name="myArg"
+            app:argType="android.os.Parcelable" />-->
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_customer"
         android:name="com.vn.quochuyapplication.ui.customer.CustomerFragment"
         android:label="@string/title_customer"
-        tools:layout="@layout/fragment_customers"/>
+        tools:layout="@layout/fragment_customers" />
 </navigation>

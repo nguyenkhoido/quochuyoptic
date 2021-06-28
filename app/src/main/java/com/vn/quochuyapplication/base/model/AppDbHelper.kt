@@ -3,7 +3,9 @@ package com.vn.quochuyapplication.base.model
 import com.vn.quochuyapplication.constant.Category
 import com.vn.quochuyapplication.data.db.DBHelper
 import com.vn.quochuyapplication.data.model.*
+import io.reactivex.Flowable
 import io.realm.Realm
+import io.realm.RealmList
 import io.realm.RealmResults
 import javax.inject.Inject
 
@@ -59,19 +61,19 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         return realmLocalDB.where(Other::class.java).equalTo("companyName", companyName).findAll()
     }
 
-    override fun getProductByCode(productCode: String?, productCategory: String?): IProduct {
+    override fun getProductByCode(productCode: String?, productCategory: String?): IProduct? {
         return when (productCategory) {
             Category.GONG_KINH -> {
-                realmLocalDB.where(Frame::class.java).equalTo("productCode", productCode).findFirst()!!
+                realmLocalDB.where(Frame::class.java).equalTo("productCode", productCode).findFirst()
             }
             Category.LENSE -> {
-                realmLocalDB.where(Lense::class.java).equalTo("productCode", productCode).findFirst()!!
+                realmLocalDB.where(Lense::class.java).equalTo("productCode", productCode).findFirst()
             }
             Category.TRONG_KINH -> {
-                realmLocalDB.where(Glasses::class.java).equalTo("productCode", productCode).findFirst()!!
+                realmLocalDB.where(Glasses::class.java).equalTo("productCode", productCode).findFirst()
             }
             else -> {
-                realmLocalDB.where(Other::class.java).equalTo("productCode", productCode).findFirst()!!
+                realmLocalDB.where(Other::class.java).equalTo("productCode", productCode).findFirst()
             }
         }
     }
@@ -140,5 +142,21 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }
     }
 
+    override fun saveSellItem(sellItemList: ArrayList<SellItem>?, onDone: Runnable?, onFail: Runnable?) {
+        sellItemList?.let { list ->
+            val realmList = RealmList<SellItem>()
+            list.forEach {
+                realmList.add(it)
+            }
+
+            realmLocalDB.executeTransactionAsync({
+                it.insertOrUpdate(list)
+            }, { onDone?.run() }, { onFail?.run() })
+        }
+    }
+
+    override fun getSellItem(): Flowable<RealmResults<SellItem>> {
+        return realmLocalDB.where(SellItem::class.java).findAll().asFlowable()
+    }
 
 }
