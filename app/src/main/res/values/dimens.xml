@@ -5,4 +5,5 @@
 
     <dimen name="edt_text_height">@dimen/_42sdp</dimen>
     <dimen name="text_view_size">@dimen/_12ssp</dimen>
+    <dimen name="text_view_big_size">@dimen/_16ssp</dimen>
 </resources>

@@ -14,8 +14,9 @@ interface DBHelper {
     fun getGlassesList(companyName: String?): MutableList<Glasses>?
     fun getLenseList(companyName: String?): MutableList<Lense>?
     fun getOtherProductList(companyName: String?): MutableList<Other>?
-    fun getProductByCode(productId: String?, category: String?): IProduct?
+    fun getProductByCode(productCode: String?, productCategory: String?): IProduct?
     fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String)
+    fun updateQuantityProductByCode(productCode: String, productQuantity: Int, productCategory: String)
     fun deleteProduct(iProduct: IProduct)
 
     //Money
@@ -26,7 +27,11 @@ interface DBHelper {
     )
 
     fun getSellItem(): Flowable<RealmResults<SellItem>>
+
     //Customer
+    fun saveCustomer(customer: Customer)
+    fun getCustomer(customerId: String?): Customer
+    fun getCustomerList(): MutableList<Customer>?
 
     fun <T : IProduct?> saveFrame(t: T)
     fun <T : IProduct?> saveGlasses(t: T)

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddProduct"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddCustomer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,16 +19,16 @@
             android:padding="@dimen/_10sdp">
 
             <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinProductCategory"
+                android:id="@+id/spinGender"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edt_text_height" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_product_name"
+                android:id="@+id/text_input_customer_name"
                 style="@style/MaterialEditText"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Tên sản phẩm">
+                android:hint="Tên">
 
                 <EditText
                     android:id="@+id/edt_name"
@@ -41,14 +41,31 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_code"
+                android:id="@+id/text_input_phone"
                 style="@style/MaterialEditText"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Mã sản phẩm">
+                android:hint="Số điện thoại">
 
                 <EditText
-                    android:id="@+id/edt_code"
+                    android:id="@+id/edt_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:imeOptions="actionDone"
+                    android:paddingStart="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_address"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Địa chỉ">
+
+                <EditText
+                    android:id="@+id/edt_address"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edt_text_height"
                     android:layout_marginTop="@dimen/_4sdp"
@@ -58,76 +75,78 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_quantity"
+                android:id="@+id/text_input_left_diop"
                 style="@style/MaterialEditText"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Số lượng">
+                android:hint="Độ cận mắt trái">
 
                 <EditText
-                    android:id="@+id/edt_quantity"
+                    android:id="@+id/edt_left_diop"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edt_text_height"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
-
                     android:imeOptions="actionNext"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_price"
+                android:id="@+id/text_input_right_diop"
                 style="@style/MaterialEditText"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Giá sản phẩm">
+                android:hint="Độ cận mắt phải">
 
                 <EditText
-                    android:id="@+id/edt_price"
+                    android:id="@+id/edt_right_diop"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_glasses"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Loại tròng">
+
+                <EditText
+                    android:id="@+id/edt_glasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_dob"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Ngày sinh">
+
+                <EditText
+                    android:id="@+id/edt_dob"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edt_text_height"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:imeOptions="actionDone"
-                    android:inputType="number" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <TextView
-                android:id="@+id/text_merged_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_24sdp"
-                android:fontFamily="sans-serif-black"
-                android:text="Copy nội dung dưới đây để tạo QR Code"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="@dimen/text_view_size"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_merge"
-                style="@style/MaterialEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Nội dung QR Code"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/edt_merged_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:imeOptions="actionDone"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:paddingEnd="@dimen/_8sdp" />
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <Button
-        android:id="@+id/btnAddProduct"
+        android:id="@+id/btnAddCustomer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edt_text_height"
         android:layout_margin="@dimen/_8sdp"

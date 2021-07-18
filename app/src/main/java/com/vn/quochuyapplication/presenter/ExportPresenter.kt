@@ -22,10 +22,14 @@ class ExportPresenter @Inject constructor(var dataManager: DataManager) : RxPres
 
     fun saveSellItemIntoDB(sellItem: ArrayList<SellItem>?) {
         dataManager.saveSellItem(sellItem, {
-
+            mView?.onSaveLocalSuccess()
         }, {
-
+            mView?.onSaveLocalFailed()
         })
+    }
+
+    fun updateProductQuantity(productCode: String, quantity: Int, productCategory: String) {
+        dataManager.updateQuantityProductByCode(productCode, quantity, productCategory)
     }
 
 }

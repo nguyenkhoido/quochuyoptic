@@ -35,12 +35,16 @@ class DataManager @Inject constructor(
         return dbHelper.getOtherProductList(companyName)!!
     }
 
-    override fun getProductByCode(productId: String?, category: String?): IProduct? {
-        return dbHelper.getProductByCode(productId, category)
+    override fun getProductByCode(productCode: String?, productCategory: String?): IProduct? {
+        return dbHelper.getProductByCode(productCode, productCategory)
     }
 
     override fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
         dbHelper.updateProductByCode(productName, productCode, productPrice, productQuantity, productCategory)
+    }
+
+    override fun updateQuantityProductByCode(productCode: String, productQuantity: Int, productCategory: String) {
+        dbHelper.updateQuantityProductByCode(productCode, productQuantity, productCategory)
     }
 
     override fun deleteProduct(iProduct: IProduct) {
@@ -53,6 +57,18 @@ class DataManager @Inject constructor(
 
     override fun getSellItem(): Flowable<RealmResults<SellItem>> {
         return dbHelper.getSellItem()
+    }
+
+    override fun saveCustomer(customer: Customer) {
+        dbHelper.saveCustomer(customer)
+    }
+
+    override fun getCustomer(customerId: String?): Customer {
+        return dbHelper.getCustomer(customerId)
+    }
+
+    override fun getCustomerList(): MutableList<Customer>? {
+        return dbHelper.getCustomerList()
     }
 
     override fun <T : IProduct?> saveFrame(t: T) {

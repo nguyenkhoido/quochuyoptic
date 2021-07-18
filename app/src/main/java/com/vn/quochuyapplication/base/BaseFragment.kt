@@ -32,7 +32,6 @@ abstract class BaseFragment<T : BasePresenter<*>> : SimpleFragment(), BaseView {
         super.onViewCreated(view, savedInstanceState)
         initInject()
         initDataAndEvents()
-        //presenter!!.attachView(this)
     }
 
     override fun onDestroyView() {

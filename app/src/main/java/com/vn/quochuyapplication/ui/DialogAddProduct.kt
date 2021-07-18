@@ -77,8 +77,8 @@ class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.On
                 dialogAddProductBinding?.edtCode?.setText(productCode)
                 dialogAddProductBinding?.edtQuantity?.setText(productQuantity)
                 dialogAddProductBinding?.edtPrice?.setText(productPrice)
-                val copyValue = "$productCode, $companyName, $productPrice, $productQuantity, $productCategory"
-                dialogAddProductBinding?.edtMergedValue?.setText(copyValue)
+                val productConvert = ProductConvert(productCode ?: "", companyName ?: "", productPrice, productQuantity, productCategory ?: "")
+                dialogAddProductBinding?.edtMergedValue?.setText(QHApplication.getInstance().getGSon().toJson(productConvert))
             }
         } catch (ex: Exception) {
             Log.e("NGUYENDK", "DialogAddProduct " + ex.localizedMessage)
@@ -127,40 +127,6 @@ class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.On
     }
 
     private fun updateProduct(dataManager: DataManager?, productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
-        /* when (itemProduct?.productCategory()) {
-             Category.GONG_KINH -> {
-                 (itemProduct as Frame).productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.productCode = dialogAddProductBinding?.edtCode?.text.toString()
-                 itemProduct.productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.quantity = dialogAddProductBinding?.edtQuantity?.text.toString().toInt()
-                 itemProduct.price = dialogAddProductBinding?.edtPrice?.text.toString().toInt()
-                 itemProduct.category = dialogAddProductBinding?.spinProductCategory?.selectedItem.toString()
-             }
-             Category.LENSE -> {
-                 (itemProduct as Lense).productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.productCode = dialogAddProductBinding?.edtCode?.text.toString()
-                 itemProduct.productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.quantity = dialogAddProductBinding?.edtQuantity?.text.toString().toInt()
-                 itemProduct.price = dialogAddProductBinding?.edtPrice?.text.toString().toInt()
-                 itemProduct.category = dialogAddProductBinding?.spinProductCategory?.selectedItem.toString()
-             }
-             Category.TRONG_KINH -> {
-                 (itemProduct as Glasses).productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.productCode = dialogAddProductBinding?.edtCode?.text.toString()
-                 itemProduct.productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.quantity = dialogAddProductBinding?.edtQuantity?.text.toString().toInt()
-                 itemProduct.price = dialogAddProductBinding?.edtPrice?.text.toString().toInt()
-                 itemProduct.category = dialogAddProductBinding?.spinProductCategory?.selectedItem.toString()
-             }
-             else -> {
-                 (itemProduct as Other).productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.productCode = dialogAddProductBinding?.edtCode?.text.toString()
-                 itemProduct.productName = dialogAddProductBinding?.edtName?.text.toString()
-                 itemProduct.quantity = dialogAddProductBinding?.edtQuantity?.text.toString().toInt()
-                 itemProduct.price = dialogAddProductBinding?.edtPrice?.text.toString().toInt()
-                 itemProduct.category = dialogAddProductBinding?.spinProductCategory?.selectedItem.toString()
-             }
-         }*/
         dataManager?.updateProductByCode(productName, productCode, productPrice, productQuantity, productCategory)
     }
 

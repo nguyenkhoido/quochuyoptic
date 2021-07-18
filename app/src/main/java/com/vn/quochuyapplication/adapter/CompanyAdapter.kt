@@ -10,7 +10,6 @@ import com.vn.quochuyapplication.adapter.CompanyAdapter.CompanyViewHolder
 import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
 import com.vn.quochuyapplication.data.model.Company
-import com.vn.quochuyapplication.ui.input.ImportFragment
 
 class CompanyAdapter constructor(
     context: Context,

@@ -118,6 +118,30 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }
     }
 
+    override fun updateQuantityProductByCode(productCode: String, productQuantity: Int, productCategory: String) {
+        realmLocalDB.executeTransaction {
+            when (productCategory) {
+                Category.GONG_KINH -> {
+                    val frame = it.where(Frame::class.java).equalTo("productCode", productCode).findFirst()
+                    frame?.quantity = productQuantity
+                }
+                Category.LENSE -> {
+                    val lense = it.where(Lense::class.java).equalTo("productCode", productCode).findFirst()
+                    lense?.quantity = productQuantity
+                }
+                Category.TRONG_KINH -> {
+                    val glasses = it.where(Glasses::class.java).equalTo("productCode", productCode).findFirst()
+                    glasses?.quantity = productQuantity
+
+                }
+                else -> {
+                    val other = it.where(Other::class.java).equalTo("productCode", productCode).findFirst()
+                    other?.quantity = productQuantity
+                }
+            }
+        }
+    }
+
     override fun deleteProduct(iProduct: IProduct) {
         realmLocalDB.executeTransaction {
             when (iProduct.productCategory()) {
@@ -157,6 +181,21 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
 
     override fun getSellItem(): Flowable<RealmResults<SellItem>> {
         return realmLocalDB.where(SellItem::class.java).findAll().asFlowable()
+    }
+
+    override fun saveCustomer(customer: Customer) {
+        realmLocalDB.executeTransaction {
+            it.insertOrUpdate(customer)
+        }
+    }
+
+    override fun getCustomer(customerId: String?): Customer {
+        return realmLocalDB.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customerId).findFirst()!!
+
+    }
+
+    override fun getCustomerList(): MutableList<Customer>? {
+        return realmLocalDB.where(Customer::class.java).findAll()
     }
 
 }

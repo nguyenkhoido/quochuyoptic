@@ -10,6 +10,7 @@ import com.vn.quochuyapplication.adapter.MoneyAdapter.MoneyViewHolder
 import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
 import com.vn.quochuyapplication.data.model.SellItem
+import com.vn.quochuyapplication.utils.StringUtils
 
 class MoneyAdapter constructor(
     context: Context,
@@ -34,7 +35,7 @@ class MoneyAdapter constructor(
     override fun onBindViewHolder(holder: MoneyViewHolder, position: Int) {
         val money = dataList[position]
         holder.itemProductCode?.text = money?.productCode.toString()
-        holder.itemMoneyPrice?.text = money?.productPrice.toString()
+        holder.itemMoneyPrice?.text = StringUtils.customFormatVND(money?.productPrice?.toDouble())
         holder.itemSellDate?.text = money?.sellDate.toString()
     }
 

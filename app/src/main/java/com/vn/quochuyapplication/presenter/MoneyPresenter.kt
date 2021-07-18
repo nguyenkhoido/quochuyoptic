@@ -6,12 +6,13 @@ import com.vn.quochuyapplication.data.model.IProduct
 import com.vn.quochuyapplication.data.model.SellItem
 import com.vn.quochuyapplication.ui.money.IMoneyView
 import com.vn.quochuyapplication.utils.DateTimeUtil
+import com.vn.quochuyapplication.utils.RxUtils
 import javax.inject.Inject
 
 class MoneyPresenter @Inject constructor(var dataManager: DataManager) : RxPresenter<IMoneyView>() {
 
     fun loadSellItem() {
-        addSubscribe(dataManager.getSellItem().subscribe({
+        addSubscribe(dataManager.getSellItem().compose(RxUtils.rxSchedulerHelper()).subscribe({
             if (it != null && it.size > 0) {
                 mView?.onLoadSellListSuccess(it)
             } else {

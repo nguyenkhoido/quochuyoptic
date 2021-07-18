@@ -5,5 +5,7 @@ import com.vn.quochuyapplication.data.model.SellItem
 import io.realm.RealmResults
 
 interface IExportView : BaseView {
+    fun onSaveLocalSuccess()
+    fun onSaveLocalFailed()
 
 }

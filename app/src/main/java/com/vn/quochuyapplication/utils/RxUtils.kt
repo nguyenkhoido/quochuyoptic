@@ -1,11 +1,7 @@
 package com.vn.quochuyapplication.utils
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import io.reactivex.Flowable
 import io.reactivex.FlowableTransformer
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

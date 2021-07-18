@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.vn.quochuyapplication.QHApplication
 import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.base.BaseFragment
 import com.vn.quochuyapplication.data.model.IProduct
+import com.vn.quochuyapplication.data.model.ProductConvert
 import com.vn.quochuyapplication.data.model.SellItem
 import com.vn.quochuyapplication.databinding.FragmentExportBinding
 import com.vn.quochuyapplication.presenter.ExportPresenter
+import com.vn.quochuyapplication.utils.StringUtils
 
 class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelectedListener, IExportView {
 
@@ -33,6 +36,11 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
         _exportBinding = FragmentExportBinding.inflate(inflater, container, false)
         mRootView = _exportBinding?.root!!
         return mRootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.attachView(this)
     }
 
     override fun initViews() {
@@ -53,25 +61,25 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
 
             if (null != mIProduct) {
                 _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
-                _exportBinding?.textProductCompany?.text = mIProduct?.productCompanyName()
-                _exportBinding?.textProductName?.text = mIProduct?.productName()
-                _exportBinding?.textProductPrice?.text = mIProduct?.productPrice().toString()
-                _exportBinding?.textProductQuantity?.text = mIProduct?.productQuantity().toString()
+                _exportBinding?.textProductCompany?.text = "Công ty: ${mIProduct?.productCompanyName()}"
+                _exportBinding?.textProductName?.text = "Sản phẩm: ${mIProduct?.productName()}"
+                _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
+                _exportBinding?.textProductQuantity?.text = "Số lượng: ${mIProduct?.productQuantity().toString()}"
             } else {
                 Toast.makeText(requireContext(), R.string.str_empty_list, Toast.LENGTH_SHORT).show()
             }
         }
         _exportBinding?.buttonSell?.setOnClickListener {
-            if (mArraySellItem == null) {
-                mArraySellItem = ArrayList()
+            if (mIProduct?.productQuantity() == 0) {
+                Toast.makeText(requireContext(), "Vui lòng nhập thêm sản phẩm", Toast.LENGTH_SHORT).show()
+            } else {
+                if (mArraySellItem == null) {
+                    mArraySellItem = ArrayList()
+                }
+                val sellItem = presenter.convertToSellItem(mIProduct)
+                mArraySellItem!!.add(sellItem)
+                presenter.saveSellItemIntoDB(mArraySellItem as ArrayList<SellItem>?)
             }
-            val sellItem = presenter.convertToSellItem(mIProduct)
-            mArraySellItem!!.add(sellItem)
-            presenter.saveSellItemIntoDB(mArraySellItem as ArrayList<SellItem>?)
-            //val bundle = Bundle()
-            //val sellItem = presenter.convertToSellItem(mIProduct)
-            //bundle.putParcelable(AppConstants.KEY_OBJ_PRODUCT, sellItem)
-            //findNavController().navigate(R.id.navigation_money, bundle)
         }
     }
 
@@ -106,6 +114,26 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 79 && data != null) {
             val contents = data.getStringExtra("SCAN_RESULT")
+            val productConvert = QHApplication.getInstance().getGSon().fromJson(contents, ProductConvert::class.java)
+
+            if (null != productConvert) {
+                _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
+                _exportBinding?.textProductCompany?.text = "Công ty: ${productConvert.productCompany}"
+                _exportBinding?.textProductName?.text = ""
+                _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
+                _exportBinding?.textProductQuantity?.text = "Số lượng: ${productConvert.productQuantity}"
+            } else {
+                Toast.makeText(requireContext(), R.string.str_empty_list, Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    override fun onSaveLocalSuccess() {
+        presenter.updateProductQuantity(mIProduct?.productCode() ?: "", mIProduct?.productQuantity()?.minus(1)!!, mIProduct?.productCategory() ?: "")
+        Toast.makeText(requireContext(), "Lưu dữ liệu thành công", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSaveLocalFailed() {
+        Toast.makeText(requireContext(), "Lưu dữ liệu thất bại", Toast.LENGTH_SHORT).show()
     }
 }
