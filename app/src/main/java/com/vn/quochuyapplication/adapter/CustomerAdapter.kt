@@ -10,11 +10,11 @@ import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
 import com.vn.quochuyapplication.data.model.Customer
 
-class CustomerAdapter constructor(
+class CustomerAdapter(
     context: Context,
-    companyList: ArrayList<Customer?>,
+    customerList: ArrayList<Customer?>,
     private val itemCompanyClick: ItemCustomerClick
-) : BaseRecyclerAdapter<Customer?, CustomerAdapter.CustomerViewHolder?>(context, companyList) {
+) : BaseRecyclerAdapter<Customer?, CustomerAdapter.CustomerViewHolder?>(context, customerList) {
     interface ItemCustomerClick {
         fun onItemClick(customer: Customer?)
     }
@@ -27,7 +27,7 @@ class CustomerAdapter constructor(
 
     override fun onBindViewHolder(holder: CustomerViewHolder, position: Int) {
         holder.itemCustomerName.text = dataList[position]?.name
-        holder.itemCustomerAddress.text = dataList[position]?.address
+        holder.itemCustomerPhone.text = dataList[position]?.phoneNumber
     }
 
     inner class CustomerViewHolder(
@@ -36,8 +36,8 @@ class CustomerAdapter constructor(
     ) : BaseViewHolder(customerView), View.OnClickListener {
         val itemCustomerName: TextView =
             customerView.findViewById<View>(R.id.text_customer_name) as TextView
-        val itemCustomerAddress: TextView =
-            customerView.findViewById<View>(R.id.text_address) as TextView
+        val itemCustomerPhone: TextView =
+            customerView.findViewById<View>(R.id.text_phone_number) as TextView
 
         override fun onBind(position: Int) {}
         override fun onClick(p0: View) {

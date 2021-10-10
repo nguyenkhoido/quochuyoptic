@@ -70,9 +70,9 @@
                     android:layout_height="@dimen/edt_text_height"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
-
                     android:imeOptions="actionNext"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:text="0" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +89,9 @@
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:imeOptions="actionDone"
-                    android:inputType="number" />
+                    android:text="0"
+                    android:inputType="number"
+                    android:autofillHints="Giá" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

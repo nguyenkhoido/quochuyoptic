@@ -183,10 +183,10 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         return realmLocalDB.where(SellItem::class.java).findAll().asFlowable()
     }
 
-    override fun saveCustomer(customer: Customer) {
-        realmLocalDB.executeTransaction {
+    override fun saveCustomer(customer: Customer,onDone: Runnable?, onFail: Runnable?) {
+        realmLocalDB.executeTransactionAsync({
             it.insertOrUpdate(customer)
-        }
+        }, { onDone?.run() }, { onFail?.run() })
     }
 
     override fun getCustomer(customerId: String?): Customer {

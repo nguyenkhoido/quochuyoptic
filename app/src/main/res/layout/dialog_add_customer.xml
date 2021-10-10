@@ -75,62 +75,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_left_diop"
-                style="@style/MaterialEditText"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Độ cận mắt trái">
-
-                <EditText
-                    android:id="@+id/edt_left_diop"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_text_height"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:imeOptions="actionNext"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_right_diop"
-                style="@style/MaterialEditText"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Độ cận mắt phải">
-
-                <EditText
-                    android:id="@+id/edt_right_diop"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_text_height"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:imeOptions="actionNext"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_glasses"
-                style="@style/MaterialEditText"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Loại tròng">
-
-                <EditText
-                    android:id="@+id/edt_glasses"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edt_text_height"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_dob"
                 style="@style/MaterialEditText"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:hint="Ngày sinh">
+                android:hint="Độ tuổi">
 
                 <EditText
                     android:id="@+id/edt_dob"
@@ -138,9 +87,98 @@
                     android:layout_height="@dimen/edt_text_height"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
-                    android:imeOptions="actionDone"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_right_diop"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Mắt phải"
+                android:lines="5">
+
+                <EditText
+                    android:id="@+id/edt_right_diop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_left_diop"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Mắt trái">
+
+                <EditText
+                    android:id="@+id/edt_left_diop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_glasses"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Tròng kính"
+                android:lines="5">
+
+                <EditText
+                    android:id="@+id/edt_glasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_frame"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Gọng kính"
+                android:lines="5">
+
+                <EditText
+                    android:id="@+id/edt_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_amount"
+                style="@style/MaterialEditText"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Giá tiền"
+
+                android:imeOptions="actionDone">
+
+                <EditText
+                    android:id="@+id/edt_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edt_text_height"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

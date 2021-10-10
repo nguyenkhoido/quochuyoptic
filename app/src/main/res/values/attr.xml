@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="fontSize" format="reference" />
+    <attr name="textHint" format="reference|string" />
+    <attr name="fontStyleName" format="enum">
+        <enum name="BLACK" value="1" />
+        <enum name="BOLD" value="2" />
+        <enum name="EXTRA_BOLD" value="3" />
+        <enum name="EXTRA_LIGHT" value="4" />
+        <enum name="LIGHT" value="5" />
+        <enum name="MEDIUM" value="6" />
+        <enum name="REGULAR" value="7" />
+        <enum name="SEMI_BOLD" value="8" />
+        <enum name="THIN" value="9" />
+    </attr>
+
+    <declare-styleable name="SearchView">
+        <attr name="fontStyleName" />
+        <attr name="fontSize" />
+        <attr name="textHint" />
+    </declare-styleable>
+</resources>

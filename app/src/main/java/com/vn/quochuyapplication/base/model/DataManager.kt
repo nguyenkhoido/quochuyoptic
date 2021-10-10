@@ -39,11 +39,27 @@ class DataManager @Inject constructor(
         return dbHelper.getProductByCode(productCode, productCategory)
     }
 
-    override fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
-        dbHelper.updateProductByCode(productName, productCode, productPrice, productQuantity, productCategory)
+    override fun updateProductByCode(
+        productName: String,
+        productCode: String,
+        productPrice: Int,
+        productQuantity: Int,
+        productCategory: String
+    ) {
+        dbHelper.updateProductByCode(
+            productName,
+            productCode,
+            productPrice,
+            productQuantity,
+            productCategory
+        )
     }
 
-    override fun updateQuantityProductByCode(productCode: String, productQuantity: Int, productCategory: String) {
+    override fun updateQuantityProductByCode(
+        productCode: String,
+        productQuantity: Int,
+        productCategory: String
+    ) {
         dbHelper.updateQuantityProductByCode(productCode, productQuantity, productCategory)
     }
 
@@ -51,7 +67,11 @@ class DataManager @Inject constructor(
         dbHelper.deleteProduct(iProduct)
     }
 
-    override fun saveSellItem(sellItemList: ArrayList<SellItem>?, onDone: Runnable?, onFail: Runnable?) {
+    override fun saveSellItem(
+        sellItemList: ArrayList<SellItem>?,
+        onDone: Runnable?,
+        onFail: Runnable?
+    ) {
         dbHelper.saveSellItem(sellItemList, onDone, onFail)
     }
 
@@ -59,8 +79,8 @@ class DataManager @Inject constructor(
         return dbHelper.getSellItem()
     }
 
-    override fun saveCustomer(customer: Customer) {
-        dbHelper.saveCustomer(customer)
+    override fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?) {
+        dbHelper.saveCustomer(customer, onDone, onFail)
     }
 
     override fun getCustomer(customerId: String?): Customer {

@@ -14,13 +14,15 @@ open class Customer : RealmObject(), Parcelable {
 
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
-    lateinit var name: String
     var gender: Int = -1
+    lateinit var name: String
     lateinit var address: String
+    lateinit var dob: String
     lateinit var phoneNumber: String
     lateinit var leftDiop: String
     lateinit var rightDiop: String
     lateinit var glassesType: String
-    lateinit var dob: String
+    lateinit var frameType: String
+    lateinit var amount: String
 
 }

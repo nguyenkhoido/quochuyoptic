@@ -29,7 +29,7 @@ interface DBHelper {
     fun getSellItem(): Flowable<RealmResults<SellItem>>
 
     //Customer
-    fun saveCustomer(customer: Customer)
+    fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?)
     fun getCustomer(customerId: String?): Customer
     fun getCustomerList(): MutableList<Customer>?
 
