@@ -23,8 +23,9 @@ import org.greenrobot.eventbus.EventBus
 class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.OnClickListener {
     private var dialogAddCustomerBinding: DialogAddCustomerBinding? = null
     private var mCurrentGender: String? = null
-    private var customerAdapter: CustomerAdapter? = null
-    var customerList: ArrayList<Customer?>? = null
+    private var mCustomerAdapter: CustomerAdapter? = null
+    var mCustomerList: ArrayList<Customer?>? = null
+    var mCustomerObj: Customer? = null
 
     companion object {
         fun newInstance(): DialogAddCustomer {
@@ -49,23 +50,24 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
     }
 
     override fun initData() {
-        var customerObj: Customer? = null
+
         try {
-            customerObj = requireArguments().getParcelable<Customer>(AppConstants.KEY_OBJ_CUSTOMER)
+            mCustomerObj = requireArguments().getParcelable<Customer>(AppConstants.KEY_OBJ_CUSTOMER)
         } catch (ex: IllegalStateException) {
 
         }
-        if (customerObj != null) {
-            dialogAddCustomerBinding?.edtName?.setText(customerObj.name)
-            dialogAddCustomerBinding?.edtAddress?.setText(customerObj.address)
-            dialogAddCustomerBinding?.edtPhone?.setText(customerObj.phoneNumber)
-            dialogAddCustomerBinding?.edtDob?.setText(customerObj.dob)
-            dialogAddCustomerBinding?.edtLeftDiop?.setText(customerObj.leftDiop)
-            dialogAddCustomerBinding?.edtRightDiop?.setText(customerObj.rightDiop)
-            dialogAddCustomerBinding?.edtGlasses?.setText(customerObj.glassesType)
-            dialogAddCustomerBinding?.edtFrame?.setText(customerObj.frameType)
-            dialogAddCustomerBinding?.edtAmount?.setText(customerObj.amount)
-            dialogAddCustomerBinding?.btnAddCustomer?.visibility = View.GONE
+        if (mCustomerObj != null) {
+            dialogAddCustomerBinding?.spinGender?.setSelection(mCustomerObj?.gender ?: 0)
+            dialogAddCustomerBinding?.edtName?.setText(mCustomerObj?.name)
+            dialogAddCustomerBinding?.edtAddress?.setText(mCustomerObj?.address)
+            dialogAddCustomerBinding?.edtPhone?.setText(mCustomerObj?.phoneNumber)
+            dialogAddCustomerBinding?.edtDob?.setText(mCustomerObj?.dob)
+            dialogAddCustomerBinding?.edtLeftDiop?.setText(mCustomerObj?.leftDiop)
+            dialogAddCustomerBinding?.edtRightDiop?.setText(mCustomerObj?.rightDiop)
+            dialogAddCustomerBinding?.edtGlasses?.setText(mCustomerObj?.glassesType)
+            dialogAddCustomerBinding?.edtFrame?.setText(mCustomerObj?.frameType)
+            dialogAddCustomerBinding?.edtAmount?.setText(mCustomerObj?.amount)
+            dialogAddCustomerBinding?.btnAddCustomer?.text = getString(R.string.edit_str)
         }
     }
 
@@ -92,7 +94,21 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
         when (v) {
             dialogAddCustomerBinding?.btnAddCustomer -> {
                 val dataManager: DataManager? = (_mActivity?.application as QHApplication).mAppComponent?.getDataManager()
-                addCustomer(dataManager)
+                if (null != mCustomerObj) {
+                    updateCustomer(
+                        dataManager, if (mCurrentGender == "Nam") 1 else 0, mCustomerObj?.id.toString(), dialogAddCustomerBinding?.edtName?.text.toString(),
+                        dialogAddCustomerBinding?.edtAddress?.text.toString(),
+                        dialogAddCustomerBinding?.edtPhone?.text.toString(),
+                        dialogAddCustomerBinding?.edtDob?.text.toString(),
+                        dialogAddCustomerBinding?.edtLeftDiop?.text.toString(),
+                        dialogAddCustomerBinding?.edtRightDiop?.text.toString(),
+                        dialogAddCustomerBinding?.edtGlasses?.text.toString(),
+                        dialogAddCustomerBinding?.edtFrame?.text.toString(),
+                        dialogAddCustomerBinding?.edtAmount?.text.toString()
+                    )
+                } else {
+                    addCustomer(dataManager)
+                }
             }
         }
     }
@@ -102,6 +118,7 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
         if (dialogAddCustomerBinding?.edtName?.text?.isEmpty() == true) {
             Toast.makeText(_mActivity, "Tên khách hàng không được bỏ trống", Toast.LENGTH_SHORT).show()
         } else {
+            customer.gender = if (mCurrentGender == "Nam") 1 else 0
             customer.name = dialogAddCustomerBinding?.edtName?.text.toString()
             customer.address = dialogAddCustomerBinding?.edtAddress?.text.toString()
             customer.phoneNumber = dialogAddCustomerBinding?.edtPhone?.text.toString()
@@ -111,16 +128,33 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
             customer.glassesType = dialogAddCustomerBinding?.edtGlasses?.text.toString()
             customer.frameType = dialogAddCustomerBinding?.edtFrame?.text.toString()
             customer.amount = dialogAddCustomerBinding?.edtAmount?.text.toString()
-            customerList?.add(customer)
-            customerAdapter?.update(customerList)
-            dataManager?.saveCustomer(customer,{
+            mCustomerList?.add(customer)
+            mCustomerAdapter?.update(mCustomerList)
+            dataManager?.saveCustomer(customer, {
                 EventBus.getDefault().post(AddCustomerEvent(AddCustomerEvent.ADD_CUSTOMER, customer))
                 dismiss()
-            },{
-                Toast.makeText(_mActivity,"Lưu thất bại",Toast.LENGTH_SHORT).show()
+            }, {
+                Toast.makeText(_mActivity, "Lưu thất bại", Toast.LENGTH_SHORT).show()
                 dismiss()
             })
 
         }
+    }
+
+    private fun updateCustomer(
+        dataManager: DataManager?,
+        gender: Int,
+        id: String,
+        customerName: String,
+        customerPhone: String,
+        address: String,
+        dob: String,
+        leftDiop: String,
+        rightDiop: String,
+        glassType: String,
+        frameType: String,
+        amount: String
+    ) {
+        dataManager?.updateCustomer(id, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, { dismiss() }, { dismiss() })
     }
 }

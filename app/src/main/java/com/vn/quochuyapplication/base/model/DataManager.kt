@@ -83,12 +83,49 @@ class DataManager @Inject constructor(
         dbHelper.saveCustomer(customer, onDone, onFail)
     }
 
+    override fun updateCustomer(
+        id: String,
+        gender: Int,
+        customerName: String,
+        customerPhone: String,
+        address: String,
+        dob: String,
+        leftDiop: String,
+        rightDiop: String,
+        glassType: String,
+        frameType: String,
+        amount: String,
+        onDone: Runnable?, onFail: Runnable?
+    ) {
+        dbHelper.updateCustomer(id, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, onDone, onFail)
+    }
+
+    override fun deleteCustomer(customer: Customer?) {
+        dbHelper.deleteCustomer(customer)
+    }
+
     override fun getCustomer(customerId: String?): Customer {
         return dbHelper.getCustomer(customerId)
     }
 
     override fun getCustomerList(): MutableList<Customer>? {
         return dbHelper.getCustomerList()
+    }
+
+    override fun saveProductId(id: ProductId, onDone: Runnable?, onFail: Runnable?) {
+        dbHelper.saveProductId(id, onDone, onFail)
+    }
+
+    override fun getAllProductId(): MutableList<ProductId>? {
+        return dbHelper.getAllProductId()
+    }
+
+    override fun getProductIdByCode(id: String, onDone: Runnable?, onFail: Runnable?): ProductId? {
+        return dbHelper.getProductIdByCode(id, onDone, onFail)
+    }
+
+    override fun deleteAllProductId(onDone: Runnable?, onFail: Runnable?) {
+        dbHelper.deleteAllProductId(onDone, onFail)
     }
 
     override fun <T : IProduct?> saveFrame(t: T) {

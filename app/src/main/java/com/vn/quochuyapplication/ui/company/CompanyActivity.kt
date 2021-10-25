@@ -2,7 +2,12 @@ package com.vn.quochuyapplication.ui.company
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph
+import androidx.navigation.NavInflater
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,11 +24,11 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class CompanyActivity : BaseActivity<CompanyPresenter>(), ProductAdapter.ItemProductClick, ICompanyInteracted.ICompanyView, View.OnClickListener {
-    private lateinit var mCompanyName: String
+class CompanyActivity : BaseActivity<CompanyPresenter>(), ICompanyInteracted.ICompanyView, View.OnClickListener {
     lateinit var companyBinding: ActivityCompanyBinding
-    lateinit var mProductAdapter: ProductAdapter
-    lateinit var mProductList: ArrayList<IProduct>
+    private lateinit var navController: NavController
+    private lateinit var graph: NavGraph
+    private lateinit var inflater: NavInflater
 
     companion object {
         fun starter(context: Activity, companyName: String) {
@@ -38,27 +43,17 @@ class CompanyActivity : BaseActivity<CompanyPresenter>(), ProductAdapter.ItemPro
     override fun initViews() {
         companyBinding = ActivityCompanyBinding.inflate(layoutInflater)
         setContentView(companyBinding.root)
-        companyBinding.floatAddProduct.setOnClickListener(this)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_product) as NavHostFragment
+        val data = Bundle().apply {
+            putString(AppConstants.COMPANY_NAME, intent.getStringExtra(AppConstants.COMPANY_NAME))
+        }
+        navController = navHostFragment.navController
+        inflater = navController.navInflater
+        graph = inflater.inflate(R.navigation.navigation_product)
+        navController.setGraph(graph, data)
     }
 
     override fun initDataAndEvents() {
-        mCompanyName = intent.getStringExtra(AppConstants.COMPANY_NAME) ?: ""
-        val frameList: MutableList<Frame> = mPresenter.dataManager.getFrameList(mCompanyName)
-        val glassesList: MutableList<Glasses> = mPresenter.dataManager.getGlassesList(mCompanyName)
-        val lenseList: MutableList<Lense> = mPresenter.dataManager.getLenseList(mCompanyName)
-        val otherList: MutableList<Other> = mPresenter.dataManager.getOtherProductList(mCompanyName)
-        mProductList = ArrayList()
-        mProductList.addAll(frameList)
-        mProductList.addAll(glassesList)
-        mProductList.addAll(lenseList)
-        mProductList.addAll(otherList)
-
-        mProductAdapter = ProductAdapter(this, mProductList, this).also {
-            val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            companyBinding.recycleProductList.layoutManager = layoutManager
-            companyBinding.recycleProductList.adapter = it
-        }
-
     }
 
     override fun onStart() {
@@ -71,16 +66,16 @@ class CompanyActivity : BaseActivity<CompanyPresenter>(), ProductAdapter.ItemPro
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onProductAdd(event: AddProductEvent) {
         when (event.event) {
-            AddProductEvent.ADD_PRODUCT -> {
+            /*AddProductEvent.ADD_PRODUCT -> {
                 if (mProductList.isNotEmpty()) {
                     mProductList.add(event.product!!)
                     mProductAdapter.update(mProductList)
                 }
-            }
+            }*/
         }
     }
 
-    override fun onGetProductSuccess(productList: MutableList<IProduct>) {
+    /*override fun onGetProductSuccess(productList: MutableList<IProduct>) {
 
     }
 
@@ -92,7 +87,7 @@ class CompanyActivity : BaseActivity<CompanyPresenter>(), ProductAdapter.ItemPro
     }
 
     override fun onItemLongClick(iProduct: IProduct) {
-        MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents)
+       MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents)
             .setIcon(android.R.drawable.stat_sys_warning)
             .setTitle("Xóa Sản Phẩm")
             .setMessage("Bạn có chắc muốn xóa sản phẩm này?")
@@ -111,12 +106,16 @@ class CompanyActivity : BaseActivity<CompanyPresenter>(), ProductAdapter.ItemPro
                 DialogAddProduct.newInstance(mCompanyName).show(supportFragmentManager, DialogAddProduct::class.java.simpleName)
             }
         }
-    }
+    }*/
 
     override fun onStop() {
         super.onStop()
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
+    }
+
+    override fun onClick(v: View?) {
+
     }
 }

@@ -183,10 +183,46 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         return realmLocalDB.where(SellItem::class.java).findAll().asFlowable()
     }
 
-    override fun saveCustomer(customer: Customer,onDone: Runnable?, onFail: Runnable?) {
+    override fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?) {
         realmLocalDB.executeTransactionAsync({
             it.insertOrUpdate(customer)
         }, { onDone?.run() }, { onFail?.run() })
+    }
+
+    override fun updateCustomer(
+        id: String,
+        gender: Int,
+        customerName: String,
+        customerPhone: String,
+        address: String,
+        dob: String,
+        leftDiop: String,
+        rightDiop: String,
+        glassType: String,
+        frameType: String,
+        amount: String,
+        onDone: Runnable?, onFail: Runnable?
+    ) {
+        realmLocalDB.executeTransactionAsync({
+            val customer = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, id).findFirst()
+            customer?.gender = gender
+            customer?.name = customerName
+            customer?.phoneNumber = customerPhone
+            customer?.dob = dob
+            customer?.address = address
+            customer?.leftDiop = leftDiop
+            customer?.rightDiop = rightDiop
+            customer?.glassesType = glassType
+            customer?.frameType = frameType
+            customer?.amount = amount
+        }, { onDone?.run() }, { onFail?.run() })
+    }
+
+    override fun deleteCustomer(customer: Customer?) {
+        realmLocalDB.executeTransaction {
+            val customerInDB = it.where(Customer::class.java).equalTo(Frame.PRODUCT_ID_FIELD, customer?.id)?.findFirst()
+            customerInDB?.deleteFromRealm()
+        }
     }
 
     override fun getCustomer(customerId: String?): Customer {
@@ -196,6 +232,29 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
 
     override fun getCustomerList(): MutableList<Customer>? {
         return realmLocalDB.where(Customer::class.java).findAll()
+    }
+
+    override fun saveProductId(id: ProductId, onDone: Runnable?, onFail: Runnable?) {
+        realmLocalDB.executeTransactionAsync({
+            it.insertOrUpdate(id)
+        }, { onDone?.run() }, {
+            onFail?.run()
+        })
+    }
+
+    override fun getAllProductId(): MutableList<ProductId>? {
+        return realmLocalDB.where(ProductId::class.java).findAll()
+    }
+
+    override fun getProductIdByCode(id: String, onDone: Runnable?, onFail: Runnable?): ProductId? {
+        return realmLocalDB.where(ProductId::class.java).equalTo(ProductId.PRODUCT_ID_FIELD, id).findFirst()
+    }
+
+    override fun deleteAllProductId(onDone: Runnable?, onFail: Runnable?) {
+        realmLocalDB.executeTransaction {
+            val result = it.where(ProductId::class.java).findAll()
+            result.deleteAllFromRealm()
+        }
     }
 
 }

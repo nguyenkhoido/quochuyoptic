@@ -97,6 +97,10 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
             .show(activity?.supportFragmentManager!!, DialogAddCustomer::class.java.simpleName)
     }
 
+    override fun onItemLongClick(customer: Customer?) {
+
+    }
+
     private fun loadList(list: ArrayList<Customer>?, isFilter: Boolean = false) {
         activity?.let {
             if (!it.isFinishing && !it.isDestroyed) {

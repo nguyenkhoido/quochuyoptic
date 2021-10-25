@@ -22,19 +22,22 @@ import com.vn.quochuyapplication.constant.Category
 import com.vn.quochuyapplication.data.model.*
 import com.vn.quochuyapplication.databinding.DialogAddProductBinding
 import com.vn.quochuyapplication.eventbus.AddProductEvent
+import com.vn.quochuyapplication.ui.company.product.IProductListener
 import com.vn.quochuyapplication.utils.StringUtils
 import org.greenrobot.eventbus.EventBus
 
-class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.OnClickListener, TextWatcher {
+class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatcher {
     private var dialogAddProductBinding: DialogAddProductBinding? = null
     private var mCurrentCategory: String? = null
     private var mCompanyName: String? = null
     private var mItemProduct: IProduct? = null
+    private var mIProductListener: IProductListener? = null
 
     companion object {
-        fun newInstance(companyName: String): DialogAddProduct {
+        fun newInstance(companyName: String, category: String): DialogAddProduct {
             val dialogAddProduct = DialogAddProduct()
             val args = Bundle()
+            args.putString(AppConstants.PRODUCT_CATEGORY, category)
             args.putString(AppConstants.COMPANY_NAME, companyName)
             dialogAddProduct.arguments = args
             return dialogAddProduct
@@ -49,21 +52,26 @@ class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.On
         }
     }
 
+    fun setProductListener(listener: IProductListener) {
+        mIProductListener = listener
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialogAddProductBinding = DialogAddProductBinding.inflate(inflater, container, false)
         dialogAddProductBinding?.btnAddProduct?.setOnClickListener(this)
         dialogAddProductBinding?.edtPrice?.addTextChangedListener(this)
         dialogAddProductBinding?.edtPrice?.filters = arrayOf(InputFilter.LengthFilter(10))
-        setUpCategorySpinner()
+        //setUpCategorySpinner()
         return dialogAddProductBinding?.root
     }
 
     override fun initData() {
         try {
             mCompanyName = requireArguments().getString(AppConstants.COMPANY_NAME)
+            mCurrentCategory = requireArguments().getString(AppConstants.PRODUCT_CATEGORY)
             mItemProduct = requireArguments().getParcelable(AppConstants.KEY_OBJ_PRODUCT)
             if (null != mItemProduct) {
-                dialogAddProductBinding?.btnAddProduct?.text = "Sửa"
+                dialogAddProductBinding?.btnAddProduct?.text = getString(R.string.edit_str)
                 dialogAddProductBinding?.textMergedLabel?.visibility = View.VISIBLE
                 dialogAddProductBinding?.textInputMerge?.visibility = View.VISIBLE
                 val productCode = mItemProduct?.productCode()
@@ -85,12 +93,12 @@ class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.On
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    /*override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         mCurrentCategory = dialogAddProductBinding?.spinProductCategory?.selectedItem.toString()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-    }
+    }*/
 
     private fun setUpCategorySpinner() {
         ArrayAdapter.createFromResource(
@@ -99,8 +107,8 @@ class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.On
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            dialogAddProductBinding?.spinProductCategory?.adapter = adapter
-            dialogAddProductBinding?.spinProductCategory?.onItemSelectedListener = this
+            //dialogAddProductBinding?.spinProductCategory?.adapter = adapter
+            //dialogAddProductBinding?.spinProductCategory?.onItemSelectedListener = this
         }
     }
 
@@ -115,11 +123,11 @@ class DialogAddProduct : SimpleDialogFragment(), OnItemSelectedListener, View.On
                         dialogAddProductBinding?.edtCode?.text.toString(),
                         dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt(),
                         dialogAddProductBinding?.edtQuantity?.text.toString().toInt(),
-                        dialogAddProductBinding?.spinProductCategory?.selectedItem.toString()
+                        mCurrentCategory.toString()
                     )
                 } else {
                     mItemProduct = addProduct(dataManager)
-                    EventBus.getDefault().post(AddProductEvent(AddProductEvent.ADD_PRODUCT, mItemProduct!!))
+                    mItemProduct?.let { mIProductListener?.onAddProductSuccess(it) }
                 }
                 dismiss()
             }

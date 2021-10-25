@@ -8,4 +8,9 @@
     <string name="format_vnd">%s VND</string>
     <string name="str_empty_list">Không có dữ liệu</string>
 
+    <string name="edit_str">Sửa</string>
+    <string name="add_str">Thêm</string>
+    <string name="delete_str">Xóa</string>
+    <string name="cancel_str">Hủy bỏ</string>
+    <string name="agree_str">Đồng ý</string>
 </resources>

@@ -27,9 +27,9 @@ class CustomerPresenter @Inject constructor(var dataManager: DataManager) :
             ArrayList<Customer>().run {
                 list.forEach { item ->
                     isContain = false
-                    if (item?.name?.contains(key, true) == true) {
+                    /*if (item?.name?.contains(key, true) == true) {
                         isContain = true
-                    }
+                    }*/
                     if (item?.phoneNumber?.contains(key, true) == true) {
                         isContain = true
                     }

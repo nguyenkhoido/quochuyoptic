@@ -29,7 +29,7 @@ object Versions {
     const val support = "28.0.0"
     const val activityVersion = "1.1.0"
     const val navigation = "2.4.0-alpha01"
-    const val navVersion = "2.3.2"
+    const val navVersion = "2.3.5"
     const val annotation = "1.1.0"
     const val gson = "2.8.5"
     const val okHttp = "4.8.1"
@@ -208,13 +208,6 @@ object UILibraries {
     const val materialBottomDialog =
         "com.afollestad.material-dialogs:bottomsheets:${Versions.materialDialogDesign}"
 
-    //SMART TAB
-    const val smartTab = "com.ogaclejapan.smarttablayout:library:${Versions.smartTab}"
-    const val smartTabUtils = "com.ogaclejapan.smarttablayout:utils-v4:${Versions.smartTab}"
-
-    //MULTISTATE VIEW
-    const val multiStateView = "com.github.Kennyc1012:MultiStateView:${Versions.multiStateView}"
-
     //DIMENSION
     const val dimensionSDP = "com.intuit.sdp:sdp-android:${Versions.dimension}"
     const val dimensionSSP = "com.intuit.ssp:ssp-android:${Versions.dimension}"
@@ -224,35 +217,4 @@ object UILibraries {
 
     //SWIPE ITEM
     const val swipeLayout = "com.daimajia.swipelayout:library:${Versions.swipeLayout}"
-}
-
-object GoogleLibraries {
-    const val googleAuth = "com.google.android.gms:play-services-auth:${Versions.googleAuth}"
-    const val googleMaps = "com.google.android.gms:play-services-maps:${Versions.googleMap}"
-    const val firebaseConfig = "com.google.firebase:firebase-config:${Versions.fireBaseConfig}"
-    const val firebaseCore = "com.google.firebase:firebase-core:${Versions.fireBaseCore}"
-    const val firebaseDynamic =
-        "com.google.firebase:firebase-dynamic-links:${Versions.fireBaseDynamic}"
-    const val firebaseMessage = "com.google.firebase:firebase-messaging:${Versions.fireBaseMessage}"
-    const val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.fireBaseAuth}"
-    const val firebaseAnalytics =
-        "com.google.firebase:firebase-analytics:${Versions.fireBaseAnalytics}"
-    const val firebaseCrashlytics =
-        "com.google.firebase:firebase-crashlytics:${Versions.fireBaseCrashlytics}"
-    const val firebasePerformance = "com.google.firebase:firebase-perf:${Versions.fireBasePerf}"
-}
-
-object TestLibraries {
-    // ANDROID TEST
-    const val unitTest = "junit:junit:${Versions.unitTest}"
-    const val androidTestCore = "androidx.test:core:${Versions.androidTestCore}"
-    const val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
-    const val androidTextRule = "androidx.test:rules:${Versions.testRulesVersion}"
-    const val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
-    const val testEspressoIntent =
-        "androidx.test.espresso:espresso-intents:${Versions.espressoVersion}"
-    const val testEspressoIdling =
-        "androidx.test.espresso:espresso-idling-resource:${Versions.espressoVersion}"
-    const val testEspressoContrib =
-        "androidx.test.espresso:espresso-contrib:${Versions.espressoVersion}"
 }

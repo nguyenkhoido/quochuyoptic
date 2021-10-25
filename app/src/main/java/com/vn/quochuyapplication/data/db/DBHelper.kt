@@ -30,8 +30,28 @@ interface DBHelper {
 
     //Customer
     fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?)
+    fun updateCustomer(
+        id: String,
+        gender: Int,
+        customerName: String,
+        customerPhone: String,
+        address: String,
+        dob: String,
+        leftDiop: String,
+        rightDiop: String,
+        glassType: String,
+        frameType: String,
+        amount: String, onDone: Runnable?, onFail: Runnable?
+    )
+
+    fun deleteCustomer(customer: Customer?)
     fun getCustomer(customerId: String?): Customer
     fun getCustomerList(): MutableList<Customer>?
+
+    fun saveProductId(id: ProductId, onDone: Runnable?, onFail: Runnable?)
+    fun getAllProductId(): MutableList<ProductId>?
+    fun getProductIdByCode(id: String, onDone: Runnable?, onFail: Runnable?): ProductId?
+    fun deleteAllProductId(onDone: Runnable?, onFail: Runnable?)
 
     fun <T : IProduct?> saveFrame(t: T)
     fun <T : IProduct?> saveGlasses(t: T)

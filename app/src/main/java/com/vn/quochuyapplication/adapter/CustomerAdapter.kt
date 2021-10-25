@@ -17,6 +17,7 @@ class CustomerAdapter(
 ) : BaseRecyclerAdapter<Customer?, CustomerAdapter.CustomerViewHolder?>(context, customerList) {
     interface ItemCustomerClick {
         fun onItemClick(customer: Customer?)
+        fun onItemLongClick(customer: Customer?)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerViewHolder {
@@ -33,20 +34,28 @@ class CustomerAdapter(
     inner class CustomerViewHolder(
         customerView: View,
         private val itemCustomerClick: ItemCustomerClick?
-    ) : BaseViewHolder(customerView), View.OnClickListener {
+    ) : BaseViewHolder(customerView), View.OnClickListener, View.OnLongClickListener {
         val itemCustomerName: TextView =
             customerView.findViewById<View>(R.id.text_customer_name) as TextView
         val itemCustomerPhone: TextView =
             customerView.findViewById<View>(R.id.text_phone_number) as TextView
 
         override fun onBind(position: Int) {}
+
         override fun onClick(p0: View) {
             this.itemCustomerClick!!.onItemClick(dataList[adapterPosition])
         }
 
+        override fun onLongClick(v: View?): Boolean {
+            this.itemCustomerClick?.onItemLongClick(dataList[adapterPosition])
+            return true
+        }
+
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
+
     }
 
 }

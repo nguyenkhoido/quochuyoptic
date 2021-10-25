@@ -2,6 +2,7 @@ package com.vn.quochuyapplication.constant
 
 object AppConstants {
     const val COMPANY_NAME = "company_name"
+    const val PRODUCT_CATEGORY = "product_category"
     const val KEY_OBJ_PRODUCT = "key_obj_product"
     const val KEY_OBJ_CUSTOMER = "key_obj_customer"
     const val PREF_NAME = "quochuyoptic_cache"

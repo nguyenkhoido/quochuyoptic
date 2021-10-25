@@ -11,7 +11,7 @@ interface ICompanyInteracted {
     }
 
     interface ICompanyView : BaseView {
-        fun onGetProductSuccess(productList: MutableList<IProduct>)
-        fun onGetProductFailed()
+        //fun onGetProductSuccess(productList: MutableList<IProduct>)
+        //fun onGetProductFailed()
     }
 }

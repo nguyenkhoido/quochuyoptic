@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'kotlin-platform-android'
-    id 'androidx.navigation.safeargs.kotlin'
+    id 'androidx.navigation.safeargs'
     id 'realm-android'
 }
 
@@ -49,8 +49,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     /**-------------------Testing libs------------------------------------------**/
-    testImplementation TestLibraries.unitTest
-    testImplementation TestLibraries.junit
+    //testImplementation TestLibraries.unitTest
+    //testImplementation TestLibraries.junit
 
     implementation AndroidLibraries.androidXActivityJava
     implementation AndroidLibraries.androidXActivityKotlin
