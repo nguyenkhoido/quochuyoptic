@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.adapter.ProductAdapter
 import com.vn.quochuyapplication.base.BaseFragment
+import com.vn.quochuyapplication.constant.Category
 import com.vn.quochuyapplication.data.model.Glasses
 import com.vn.quochuyapplication.data.model.IProduct
 import com.vn.quochuyapplication.databinding.FragmentGlassesBinding
@@ -52,7 +53,6 @@ class FragmentGlass : BaseFragment<GlassProductPresenter>(), IGlassProductView, 
         //mProductList.addAll(otherList)
 
         mProductAdapter = ProductAdapter(requireContext(), mProductList, this).also {
-            val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             _glassFragBinding?.recycleProductList?.adapter = it
         }
     }
@@ -61,7 +61,7 @@ class FragmentGlass : BaseFragment<GlassProductPresenter>(), IGlassProductView, 
         when (v) {
             _glassFragBinding?.floatAddProduct -> {
                 activity?.supportFragmentManager?.let {
-                    val dialogAddProduct = DialogAddProduct.newInstance(mCompanyName, "Tròng Kính")
+                    val dialogAddProduct = DialogAddProduct.newInstance(mCompanyName, Category.TRONG_KINH)
                     dialogAddProduct.setProductListener(this)
                     dialogAddProduct.show(it, DialogAddProduct::class.java.simpleName)
                 }
@@ -70,7 +70,11 @@ class FragmentGlass : BaseFragment<GlassProductPresenter>(), IGlassProductView, 
     }
 
     override fun onItemClick(iProduct: IProduct) {
-        activity?.supportFragmentManager?.let { DialogAddProduct.newInstance(iProduct).show(it, DialogAddProduct::class.java.simpleName) }
+        activity?.supportFragmentManager?.let {
+            val dialogAddProduct = DialogAddProduct.newInstance(iProduct)
+            dialogAddProduct.setProductListener(this)
+            dialogAddProduct.show(it, DialogAddProduct::class.java.simpleName)
+        }
     }
 
     override fun onItemLongClick(iProduct: IProduct) {
@@ -89,6 +93,17 @@ class FragmentGlass : BaseFragment<GlassProductPresenter>(), IGlassProductView, 
 
     override fun onAddProductSuccess(product: IProduct) {
         mProductList.add(product)
-        mProductAdapter.refreshData(mProductList)
+        mProductAdapter.update(mProductList)
     }
+
+    override fun onUpdateProductSuccess(productId: String) {
+        val updatedProduct = mProductList.find { it.productId() == productId }
+        updatedProduct?.let { iProduct ->
+            mProductAdapter.getPosition(iProduct).also { position ->
+                mProductAdapter.notifyItemChanged(position)
+            }
+        }
+    }
+
+
 }

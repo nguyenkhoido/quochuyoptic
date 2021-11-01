@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.adapter.CustomerAdapter
 import com.vn.quochuyapplication.base.BaseFragment
 import com.vn.quochuyapplication.customview.MySearchView
@@ -88,6 +91,14 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
                     mCustomerAdapter?.update(presenter.mAllCustomerList)
                 }
             }
+            AddCustomerEvent.UPDATE_CUSTOMER -> {
+                if (presenter.mAllCustomerList?.isNotEmpty() == true) {
+                    val updatedCustomer = presenter.mAllCustomerList?.find { it?.id == event.customerId }
+                    mCustomerAdapter?.getPosition(updatedCustomer).also { position ->
+                        position?.let { mCustomerAdapter?.notifyItemChanged(it) }
+                    }
+                }
+            }
         }
     }
 
@@ -98,7 +109,21 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
     }
 
     override fun onItemLongClick(customer: Customer?) {
-
+        MaterialAlertDialogBuilder(requireContext(), R.style.MaterialAlertDialog_MaterialComponents)
+            .setIcon(android.R.drawable.stat_sys_warning)
+            .setTitle("Xóa Khách Hàng")
+            .setMessage("Bạn có chắc muốn xóa khách hàng này?")
+            .setPositiveButton("Xóa") { dialog, which ->
+                presenter.dataManager.deleteCustomer(customer, {
+                    presenter.mAllCustomerList?.removeIf { it?.id == customer?.id }
+                    mCustomerAdapter?.update(presenter.mAllCustomerList)
+                }, {
+                    Toast.makeText(requireContext(), "Xóa không thành công", Toast.LENGTH_SHORT).show()
+                })
+                dialog.dismiss()
+            }.setNegativeButton("Hủy") { dialog, which ->
+                dialog.dismiss()
+            }.show()
     }
 
     private fun loadList(list: ArrayList<Customer>?, isFilter: Boolean = false) {

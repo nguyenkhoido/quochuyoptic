@@ -19,6 +19,9 @@ open class Lense : RealmObject(), IProduct {
     var productName: String? = null
     var price = 0
     var quantity = 0
+    override fun productId(): String? {
+        return productId
+    }
 
     override fun productCategory(): String? {
         return this.category

@@ -40,18 +40,23 @@ class DataManager @Inject constructor(
     }
 
     override fun updateProductByCode(
+        productId: String?,
         productName: String,
         productCode: String,
         productPrice: Int,
         productQuantity: Int,
-        productCategory: String
+        productCategory: String,
+        onDone: Runnable?, onFail: Runnable?
     ) {
         dbHelper.updateProductByCode(
+            productId,
             productName,
             productCode,
             productPrice,
             productQuantity,
-            productCategory
+            productCategory,
+            onDone,
+            onFail
         )
     }
 
@@ -100,8 +105,8 @@ class DataManager @Inject constructor(
         dbHelper.updateCustomer(id, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, onDone, onFail)
     }
 
-    override fun deleteCustomer(customer: Customer?) {
-        dbHelper.deleteCustomer(customer)
+    override fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?) {
+        dbHelper.deleteCustomer(customer, onDone, onFail)
     }
 
     override fun getCustomer(customerId: String?): Customer {

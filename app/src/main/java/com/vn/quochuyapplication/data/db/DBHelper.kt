@@ -15,7 +15,7 @@ interface DBHelper {
     fun getLenseList(companyName: String?): MutableList<Lense>?
     fun getOtherProductList(companyName: String?): MutableList<Other>?
     fun getProductByCode(productCode: String?, productCategory: String?): IProduct?
-    fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String)
+    fun updateProductByCode(productId: String?, productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String, onDone: Runnable?, onFail: Runnable?)
     fun updateQuantityProductByCode(productCode: String, productQuantity: Int, productCategory: String)
     fun deleteProduct(iProduct: IProduct)
 
@@ -44,7 +44,7 @@ interface DBHelper {
         amount: String, onDone: Runnable?, onFail: Runnable?
     )
 
-    fun deleteCustomer(customer: Customer?)
+    fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?)
     fun getCustomer(customerId: String?): Customer
     fun getCustomerList(): MutableList<Customer>?
 

@@ -96,9 +96,9 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
                 val dataManager: DataManager? = (_mActivity?.application as QHApplication).mAppComponent?.getDataManager()
                 if (null != mCustomerObj) {
                     updateCustomer(
-                        dataManager, if (mCurrentGender == "Nam") 1 else 0, mCustomerObj?.id.toString(), dialogAddCustomerBinding?.edtName?.text.toString(),
-                        dialogAddCustomerBinding?.edtAddress?.text.toString(),
+                        dataManager, mCustomerObj?.id.toString(), if (mCurrentGender == "Nam") 1 else 0, dialogAddCustomerBinding?.edtName?.text.toString(),
                         dialogAddCustomerBinding?.edtPhone?.text.toString(),
+                        dialogAddCustomerBinding?.edtAddress?.text.toString(),
                         dialogAddCustomerBinding?.edtDob?.text.toString(),
                         dialogAddCustomerBinding?.edtLeftDiop?.text.toString(),
                         dialogAddCustomerBinding?.edtRightDiop?.text.toString(),
@@ -143,8 +143,8 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
 
     private fun updateCustomer(
         dataManager: DataManager?,
+        customerId: String,
         gender: Int,
-        id: String,
         customerName: String,
         customerPhone: String,
         address: String,
@@ -155,6 +155,8 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
         frameType: String,
         amount: String
     ) {
-        dataManager?.updateCustomer(id, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, { dismiss() }, { dismiss() })
+        dataManager?.updateCustomer(customerId, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, {
+            EventBus.getDefault().post(AddCustomerEvent(AddCustomerEvent.UPDATE_CUSTOMER, customerId))
+            dismiss() }, { dismiss() })
     }
 }

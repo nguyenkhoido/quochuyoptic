@@ -3,8 +3,6 @@
     <array name="product_array">
         <item>Gọng Kính</item>
         <item>Tròng Kính</item>
-        <item>Lense</item>
-        <item>Khác</item>
     </array>
     <array name="gender_array">
         <item>Nam</item>

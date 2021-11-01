@@ -78,44 +78,53 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }
     }
 
-    override fun updateProductByCode(productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
-        realmLocalDB.executeTransaction {
+    override fun updateProductByCode(
+        productId: String?,
+        productName: String,
+        productCode: String,
+        productPrice: Int,
+        productQuantity: Int,
+        productCategory: String,
+        onDone: Runnable?,
+        onFail: Runnable?
+    ) {
+        realmLocalDB.executeTransactionAsync({
             when (productCategory) {
                 Category.GONG_KINH -> {
-                    val frame = it.where(Frame::class.java).findFirst()
+                    val frame = it.where(Frame::class.java).equalTo(Frame.PRODUCT_ID_FIELD, productId).findFirst()
                     frame?.productName = productName
                     frame?.productCode = productCode
                     frame?.quantity = productQuantity
                     frame?.price = productPrice
                     frame?.category = productCategory
                 }
-                Category.LENSE -> {
-                    val lense = it.where(Lense::class.java).findFirst()
-                    lense?.productName = productName
-                    lense?.productCode = productCode
-                    lense?.quantity = productQuantity
-                    lense?.price = productPrice
-                    lense?.category = productCategory
-                }
+                /*  Category.LENSE -> {
+                      val lense = it.where(Lense::class.java).findFirst()
+                      lense?.productName = productName
+                      lense?.productCode = productCode
+                      lense?.quantity = productQuantity
+                      lense?.price = productPrice
+                      lense?.category = productCategory
+                  }*/
                 Category.TRONG_KINH -> {
-                    val glasses = it.where(Glasses::class.java).findFirst()
+                    val glasses = it.where(Glasses::class.java).equalTo(Glasses.PRODUCT_ID_FIELD, productId).findFirst()
                     glasses?.productName = productName
                     glasses?.productCode = productCode
                     glasses?.quantity = productQuantity
                     glasses?.price = productPrice
                     glasses?.category = productCategory
                 }
-                else -> {
+                /*else -> {
                     val other = it.where(Other::class.java).findFirst()
                     other?.productName = productName
                     other?.productCode = productCode
                     other?.quantity = productQuantity
                     other?.price = productPrice
                     other?.category = productCategory
-                }
+                }*/
             }
 
-        }
+        }, { onDone?.run() }, { onFail?.run() })
     }
 
     override fun updateQuantityProductByCode(productCode: String, productQuantity: Int, productCategory: String) {
@@ -218,11 +227,13 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }, { onDone?.run() }, { onFail?.run() })
     }
 
-    override fun deleteCustomer(customer: Customer?) {
-        realmLocalDB.executeTransaction {
-            val customerInDB = it.where(Customer::class.java).equalTo(Frame.PRODUCT_ID_FIELD, customer?.id)?.findFirst()
+    override fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?) {
+        realmLocalDB.executeTransactionAsync({
+            val customerInDB = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customer?.id)?.findFirst()
             customerInDB?.deleteFromRealm()
-        }
+        }, { onDone?.run() }, {
+            onFail?.run()
+        })
     }
 
     override fun getCustomer(customerId: String?): Customer {

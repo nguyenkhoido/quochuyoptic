@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.android.tools.build.jetifier.core.utils.Log
 import com.vn.quochuyapplication.QHApplication
 import com.vn.quochuyapplication.R
@@ -61,7 +62,6 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
         dialogAddProductBinding?.btnAddProduct?.setOnClickListener(this)
         dialogAddProductBinding?.edtPrice?.addTextChangedListener(this)
         dialogAddProductBinding?.edtPrice?.filters = arrayOf(InputFilter.LengthFilter(10))
-        //setUpCategorySpinner()
         return dialogAddProductBinding?.root
     }
 
@@ -76,17 +76,23 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 dialogAddProductBinding?.textInputMerge?.visibility = View.VISIBLE
                 val productCode = mItemProduct?.productCode()
                 val productName = mItemProduct?.productName()
-                val companyName = mItemProduct?.productCompanyName()
                 val productQuantity = mItemProduct?.productQuantity().toString()
                 val productPrice = mItemProduct?.productPrice().toString()
-                val productCategory = mItemProduct?.productCategory()
+
+                mCompanyName = mItemProduct?.productCompanyName()
+                mCurrentCategory = mItemProduct?.productCategory()
 
                 dialogAddProductBinding?.edtName?.setText(productName)
                 dialogAddProductBinding?.edtCode?.setText(productCode)
                 dialogAddProductBinding?.edtQuantity?.setText(productQuantity)
                 dialogAddProductBinding?.edtPrice?.setText(productPrice)
-                val productConvert = ProductConvert(productCode ?: "", companyName ?: "", productPrice, productQuantity, productCategory ?: "")
+                val productConvert = ProductConvert(productCode ?: "")
                 dialogAddProductBinding?.edtMergedValue?.setText(QHApplication.getInstance().getGSon().toJson(productConvert))
+            } else {
+                when (mCurrentCategory) {
+                    Category.GONG_KINH -> dialogAddProductBinding?.edtCode?.setText("GK")
+                    Category.TRONG_KINH -> dialogAddProductBinding?.edtCode?.setText("TK")
+                }
             }
         } catch (ex: Exception) {
             Log.e("NGUYENDK", "DialogAddProduct " + ex.localizedMessage)
@@ -119,23 +125,37 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
 
                 if (null != mItemProduct) {
                     updateProduct(
-                        dataManager, dialogAddProductBinding?.edtName?.text.toString(),
+                        dataManager, mItemProduct?.productId(), dialogAddProductBinding?.edtName?.text.toString(),
                         dialogAddProductBinding?.edtCode?.text.toString(),
                         dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt(),
                         dialogAddProductBinding?.edtQuantity?.text.toString().toInt(),
-                        mCurrentCategory.toString()
+                        mItemProduct?.productCategory() ?: ""
                     )
                 } else {
                     mItemProduct = addProduct(dataManager)
                     mItemProduct?.let { mIProductListener?.onAddProductSuccess(it) }
+                    dismiss()
                 }
-                dismiss()
             }
         }
     }
 
-    private fun updateProduct(dataManager: DataManager?, productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
-        dataManager?.updateProductByCode(productName, productCode, productPrice, productQuantity, productCategory)
+    private fun updateProduct(dataManager: DataManager?, productId: String?, productName: String, productCode: String, productPrice: Int, productQuantity: Int, productCategory: String) {
+        dataManager?.updateProductByCode(
+            productId,
+            productName,
+            productCode,
+            productPrice,
+            productQuantity,
+            productCategory,
+            {
+                dismiss()
+                mIProductListener?.onUpdateProductSuccess(productId.toString())
+            },
+            {
+                dismiss()
+                Toast.makeText(requireContext(), "Thay đổi không thành công", Toast.LENGTH_SHORT).show()
+            })
     }
 
     private fun addProduct(dataManager: DataManager?): IProduct {
@@ -148,13 +168,13 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 )
                 dataManager?.saveFrame(iProduct)
             }
-            Category.LENSE -> {
-                iProduct = newProduct(
-                    Category.LENSE, dialogAddProductBinding?.edtName?.text.toString(), mCompanyName ?: "", dialogAddProductBinding?.edtCode?.text.toString(),
-                    dialogAddProductBinding?.edtQuantity?.text.toString().toInt(), dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt()
-                )
-                dataManager?.saveLense(iProduct)
-            }
+            /*  Category.LENSE -> {
+                  iProduct = newProduct(
+                      Category.LENSE, dialogAddProductBinding?.edtName?.text.toString(), mCompanyName ?: "", dialogAddProductBinding?.edtCode?.text.toString(),
+                      dialogAddProductBinding?.edtQuantity?.text.toString().toInt(), dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt()
+                  )
+                  dataManager?.saveLense(iProduct)
+              }*/
             Category.TRONG_KINH -> {
                 iProduct = newProduct(
                     Category.TRONG_KINH, dialogAddProductBinding?.edtName?.text.toString(), mCompanyName ?: "", dialogAddProductBinding?.edtCode?.text.toString(),
@@ -162,13 +182,13 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 )
                 dataManager?.saveGlasses(iProduct)
             }
-            Category.OTHER -> {
+            /*Category.OTHER -> {
                 iProduct = newProduct(
                     Category.OTHER, dialogAddProductBinding?.edtName?.text.toString(), mCompanyName ?: "", dialogAddProductBinding?.edtCode?.text.toString(),
                     dialogAddProductBinding?.edtQuantity?.text.toString().toInt(), dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt()
                 )
                 dataManager?.saveOtherProduct(iProduct)
-            }
+            }*/
         }
         return iProduct!!
     }
@@ -186,17 +206,17 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 return frame
 
             }
-            Category.LENSE -> {
-                val lense = Lense()
-                lense.category = Category.LENSE
-                lense.productName = productName
-                lense.companyName = companyName
-                lense.productCode = code
-                lense.quantity = quantity
-                lense.price = price
-                return lense
+            /* Category.LENSE -> {
+                 val lense = Lense()
+                 lense.category = Category.LENSE
+                 lense.productName = productName
+                 lense.companyName = companyName
+                 lense.productCode = code
+                 lense.quantity = quantity
+                 lense.price = price
+                 return lense
 
-            }
+             }*/
             Category.TRONG_KINH -> {
                 val glasses = Glasses()
                 glasses.category = Category.TRONG_KINH
@@ -207,7 +227,7 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 glasses.price = price
                 return glasses
             }
-            else -> {
+            /*else -> {
                 val other = Other()
                 other.category = Category.OTHER
                 other.productName = productName
@@ -216,6 +236,9 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 other.quantity = quantity
                 other.price = price
                 return other
+            }*/
+            else -> {
+                return Frame()
             }
         }
     }

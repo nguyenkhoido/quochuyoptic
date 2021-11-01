@@ -118,10 +118,10 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
 
             if (null != productConvert) {
                 _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
-                _exportBinding?.textProductCompany?.text = "Công ty: ${productConvert.productCompany}"
-                _exportBinding?.textProductName?.text = ""
-                _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
-                _exportBinding?.textProductQuantity?.text = "Số lượng: ${productConvert.productQuantity}"
+                //_exportBinding?.textProductCompany?.text = "Công ty: ${productConvert.productCompany}"
+                //_exportBinding?.textProductName?.text = ""
+               // _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
+                //_exportBinding?.textProductQuantity?.text = "Số lượng: ${productConvert.productQuantity}"
             } else {
                 Toast.makeText(requireContext(), R.string.str_empty_list, Toast.LENGTH_SHORT).show()
             }

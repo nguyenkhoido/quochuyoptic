@@ -12,6 +12,7 @@ open class Other : RealmObject(), IProduct {
     companion object {
         const val PRODUCT_ID_FIELD = "productId"
     }
+
     var productId = UUID.randomUUID().toString()
     var category: String? = null
     var companyName: String? = null
@@ -19,6 +20,9 @@ open class Other : RealmObject(), IProduct {
     var productName: String? = null
     var price = 0
     var quantity = 0
+    override fun productId(): String? {
+        return this.productId
+    }
 
     override fun productCategory(): String? {
         return this.category
