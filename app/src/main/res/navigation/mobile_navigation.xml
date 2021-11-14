@@ -32,4 +32,9 @@
         android:name="com.vn.quochuyapplication.ui.customer.CustomerFragment"
         android:label="@string/title_customer"
         tools:layout="@layout/fragment_customers" />
+    <fragment
+        android:id="@+id/navigation_product_code"
+        tools:layout="@layout/fragment_product_id"
+        android:name="com.vn.quochuyapplication.ui.qrcode.ProductIdFragment"
+        android:label="ProductIdFragment" />
 </navigation>

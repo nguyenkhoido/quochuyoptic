@@ -1,9 +1,8 @@
 package com.vn.quochuyapplication.ui.money
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vn.quochuyapplication.R
@@ -26,9 +25,14 @@ class MoneyFragment : BaseFragment<MoneyPresenter>(), IMoneyView, MoneyAdapter.I
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _moneyBinding = FragmentMoneyBinding.inflate(inflater, container, false)
         mRootView = _moneyBinding?.root!!
+        setHasOptionsMenu(true)
         return mRootView
     }
 
@@ -37,8 +41,24 @@ class MoneyFragment : BaseFragment<MoneyPresenter>(), IMoneyView, MoneyAdapter.I
         presenter.attachView(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.money_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.one) {
+            return true
+        }
+        /*return NavigationUI.onNavDestinationSelected(item!!,
+            view!!.findNavController())
+                || super.onOptionsItemSelected(item)*/
+        return true
+    }
+
     override fun initViews() {
         // mSellItem = requireArguments().getParcelable(AppConstants.KEY_OBJ_PRODUCT)
+
     }
 
     override fun initDataAndEvents() {
@@ -60,7 +80,8 @@ class MoneyFragment : BaseFragment<MoneyPresenter>(), IMoneyView, MoneyAdapter.I
         _moneyBinding?.recycleListMoney?.visibility = View.VISIBLE
         _moneyBinding?.recycleListMoney.let { recyclerView ->
             mMoneyAdapter = MoneyAdapter(requireContext(), sellItemList, this).also { adapter ->
-                val layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+                val layoutManager =
+                    LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                 recyclerView?.layoutManager = layoutManager
                 recyclerView?.adapter = adapter
             }
@@ -80,7 +101,10 @@ class MoneyFragment : BaseFragment<MoneyPresenter>(), IMoneyView, MoneyAdapter.I
             mArraySellItem?.forEach {
                 sumValue += it.productPrice
             }
-            _moneyBinding?.textMoney?.text = String.format(getString(R.string.format_vnd), StringUtils.customFormatVND(sumValue.toDouble()))
+            _moneyBinding?.textMoney?.text = String.format(
+                getString(R.string.format_vnd),
+                StringUtils.customFormatVND(sumValue.toDouble())
+            )
         }
     }
 
