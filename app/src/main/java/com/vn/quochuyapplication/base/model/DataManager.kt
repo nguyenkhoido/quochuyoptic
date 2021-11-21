@@ -129,10 +129,6 @@ class DataManager @Inject constructor(
         return dbHelper.getAllProductId()
     }
 
-    override fun getProductIdByCode(id: String, onDone: Runnable?, onFail: Runnable?): ProductId? {
-        return dbHelper.getProductIdByCode(id, onDone, onFail)
-    }
-
     override fun deleteAllProductId(onDone: Runnable?, onFail: Runnable?) {
         dbHelper.deleteAllProductId(onDone, onFail)
     }

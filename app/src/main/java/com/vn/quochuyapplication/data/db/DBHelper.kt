@@ -53,7 +53,6 @@ interface DBHelper {
 
     fun saveProductId(id: ProductId, onDone: Runnable?, onFail: Runnable?)
     fun getAllProductId(): MutableList<ProductId>?
-    fun getProductIdByCode(id: String, onDone: Runnable?, onFail: Runnable?): ProductId?
     fun deleteAllProductId(onDone: Runnable?, onFail: Runnable?)
 
     fun <T : IProduct?> saveFrame(t: T)

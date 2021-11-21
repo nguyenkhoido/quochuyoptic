@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.zxing.integration.android.IntentIntegrator
 import com.vn.quochuyapplication.QHApplication
 import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.base.BaseFragment
 import com.vn.quochuyapplication.data.model.IProduct
 import com.vn.quochuyapplication.data.model.ProductConvert
+import com.vn.quochuyapplication.data.model.ProductId
 import com.vn.quochuyapplication.data.model.SellItem
 import com.vn.quochuyapplication.databinding.FragmentExportBinding
 import com.vn.quochuyapplication.presenter.ExportPresenter
@@ -56,8 +59,9 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
                  val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
                  startActivity(marketIntent)
              }*/
+            val intent = Intent(context, ScannerActivity::class.java)
+            qrScanResult.launch(intent)
 
-            activity?.startActivity(Intent(context, BarCodeScannerActivity::class.java))
         }
         _exportBinding?.buttonFind?.setOnClickListener {
             mIProduct = presenter.dataManager.getProductByCode(_exportBinding?.editFind?.text.toString(), _exportBinding?.spinnerCategory?.selectedItem.toString())
@@ -135,5 +139,33 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
 
     override fun onSaveLocalFailed() {
         Toast.makeText(requireContext(), "Lưu dữ liệu thất bại", Toast.LENGTH_SHORT).show()
+    }
+
+    private val qrScanResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        try {
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                if (intent?.hasExtra("REQUEST_CODE") == true) {
+                    when (intent.getStringExtra("REQUEST_CODE")) {
+                        "SCAN_QRCODE" -> {
+                            val rawText = intent.getStringExtra("SCAN_RESULT")
+                            Toast.makeText(context, rawText, Toast.LENGTH_LONG).show()
+                            val qrCodeConvert = QHApplication.getInstance().getGSon().fromJson(rawText, ProductId::class.java)
+                            mIProduct = presenter.dataManager.getProductByCode(qrCodeConvert.productCode, qrCodeConvert.productCategory)
+                            if (mIProduct != null) {
+                                _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
+                                _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
+                                _exportBinding?.textProductCompany?.text = "Công ty: ${mIProduct?.productCompanyName()}"
+                                _exportBinding?.textProductName?.text = "Sản phẩm: ${mIProduct?.productName()}"
+                                _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
+                                _exportBinding?.textProductQuantity?.text = "Số lượng: ${mIProduct?.productQuantity().toString()}"
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+
+        }
     }
 }

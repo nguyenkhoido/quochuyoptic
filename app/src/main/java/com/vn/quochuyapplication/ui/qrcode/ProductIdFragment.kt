@@ -43,7 +43,7 @@ class ProductIdFragment : BaseFragment<ProductIdPresenter>(), IProductIdView, Pr
 
     override fun onItemClick(iProduct: ProductId) {
         val clipboard = activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
-        val clip = ClipData.newPlainText("Mã QR Code", iProduct.productQRCode)
+        val clip = ClipData.newPlainText("Mã QR Code", iProduct.productCode)
         clipboard?.setPrimaryClip(clip)
         Toast.makeText(requireContext(), "Đã copy mã", Toast.LENGTH_SHORT).show()
     }

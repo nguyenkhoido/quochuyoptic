@@ -1,3 +1,3 @@
 package com.vn.quochuyapplication.data.model
 
-data class ProductConvert(var productCode: String)
+data class ProductConvert(var productCode: String, var productCategory: String)

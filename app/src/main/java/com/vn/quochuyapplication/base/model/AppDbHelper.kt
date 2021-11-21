@@ -262,10 +262,6 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         return realmLocalDB.where(ProductId::class.java).findAll()
     }
 
-    override fun getProductIdByCode(id: String, onDone: Runnable?, onFail: Runnable?): ProductId? {
-        return realmLocalDB.where(ProductId::class.java).equalTo(ProductId.PRODUCT_ID_FIELD, id).findFirst()
-    }
-
     override fun deleteAllProductId(onDone: Runnable?, onFail: Runnable?) {
         realmLocalDB.executeTransaction {
             val result = it.where(ProductId::class.java).findAll()

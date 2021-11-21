@@ -79,8 +79,9 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 dialogAddProductBinding?.edtCode?.setText(productCode)
                 dialogAddProductBinding?.edtQuantity?.setText(productQuantity)
                 dialogAddProductBinding?.edtPrice?.setText(productPrice)
-                val productConvert = ProductConvert(productCode ?: "")
+                val productConvert = ProductConvert(productCode ?: "", mItemProduct?.productCategory() ?: "")
                 dialogAddProductBinding?.edtMergedValue?.setText(QHApplication.getInstance().getGSon().toJson(productConvert))
+                dialogAddProductBinding?.edtMergedValue?.isEnabled = false
                 dialogAddProductBinding?.btnSaveCode?.visibility = View.VISIBLE
             } else {
                 when (mCurrentCategory) {
@@ -144,7 +145,8 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 val dataManager: DataManager? = (_mActivity?.application as QHApplication).mAppComponent?.getDataManager()
                 if (dialogAddProductBinding?.edtMergedValue?.text.toString().isNotEmpty()) {
                     val productId = ProductId()
-                    productId.productQRCode = dialogAddProductBinding?.edtMergedValue?.text.toString()
+                    productId.productCode = mItemProduct?.productCode()
+                    productId.productCategory = mItemProduct?.productCategory()
                     dataManager?.saveProductId(productId, {
                         mIProductListener?.onSaveQrCodeContentSuccess(dialogAddProductBinding?.edtMergedValue?.text.toString())
                         dismiss()

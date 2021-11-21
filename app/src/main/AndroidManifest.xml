@@ -21,9 +21,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuocHuyApplication">
-
+        <activity
+            android:name=".ui.export.ScannerActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,9 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.export.BarCodeScannerActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.company.CompanyActivity"
             android:configChanges="orientation|keyboard" />

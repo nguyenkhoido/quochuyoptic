@@ -31,15 +31,17 @@ class ProductQRCodeAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product: ProductId = dataList[position]
         val itemProductName = holder.itemQRCodeValue
-        itemProductName.text = "Mã QR Code: " + product.productQRCode
+        val itemProductCategory = holder.itemQRCodeCategory
+        itemProductName.text = "Mã QR Code: " + product.productCode
+        itemProductCategory.text = product.productCategory
     }
-
 
     inner class ProductViewHolder(
         productView: View,
         private val itemProductClick: ItemProductClick
     ) : BaseViewHolder(productView), View.OnClickListener, View.OnLongClickListener {
         val itemQRCodeValue: TextView = productView.findViewById(R.id.text_product_code)
+        val itemQRCodeCategory: TextView = productView.findViewById(R.id.text_product_category)
 
         override fun onBind(position: Int) {}
         override fun onClick(p0: View) {

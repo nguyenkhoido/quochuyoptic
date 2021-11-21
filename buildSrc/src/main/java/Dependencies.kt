@@ -38,7 +38,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val retrofitGson = "2.9.0"
     const val retrofitAdapter = "2.9.0"
-    const val dagger2 = "2.28.3"
+    const val dagger2 = "2.40.1"
     const val rxJava = "2.2.4"
     const val rxNet = "1.0.1"
     const val rxAndroid = "2.1.1"
