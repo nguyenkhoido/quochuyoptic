@@ -40,13 +40,15 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _customerBinding = FragmentCustomersBinding.inflate(inflater, container, false)
-        mRootView = _customerBinding?.root!!
+        _customerBinding?.let { mRootView = it.root }
         return mRootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.attachView(this)
     }
 
     override fun initInject() {
@@ -69,7 +71,7 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
                 CustomerAdapter(requireContext(), presenter.mAllCustomerList!!, this).also {
                     _customerBinding?.recycleListCustomer?.layoutManager = lnManager
                     _customerBinding?.recycleListCustomer?.adapter = it
-
+                    _customerBinding?.searchView?.visibility = View.VISIBLE
                     _customerBinding?.searchView?.setOnSearchKeyChangeListener(object :
                         MySearchView.OnSearchKeyChangeListener {
                         override fun onSearchKeyChanged(key: String) {

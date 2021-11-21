@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -13,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 
 import com.vn.quochuyapplication.R
+import com.vn.quochuyapplication.databinding.LayoutSearchViewBinding
 import com.vn.quochuyapplication.utils.FontUtils
 import kotlinx.android.synthetic.main.layout_search_view.view.*
 
@@ -23,6 +25,7 @@ class MySearchView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
     var mOnSearchViewClickListener: OnSearchViewClick? = null
     var mOSearchKeyChangeListener: OnSearchKeyChangeListener? = null
+    var searchViewBinding: LayoutSearchViewBinding? = null
 
     init {
         setupAttributes(attrs)
@@ -31,9 +34,11 @@ class MySearchView @JvmOverloads constructor(
     }
 
     private fun setupAttributes(attrs: AttributeSet?) {
-        View.inflate(context, R.layout.layout_search_view, this)
+        //val inflated = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        //searchViewBinding = LayoutSearchViewBinding.inflate(inflated, this, false)
+        searchViewBinding = LayoutSearchViewBinding.bind(View.inflate(context, R.layout.layout_search_view, this))
 
-        attrs?.let { attrsVal ->
+        attrs?.let {
             val typedArray =
                 context.theme.obtainStyledAttributes(attrs, R.styleable.SearchView, 0, 0)
 
@@ -43,14 +48,14 @@ class MySearchView @JvmOverloads constructor(
                 R.styleable.SearchView_fontSize,
                 resources.getDimension(R.dimen._15ssp)
             )
-            iFontSize?.let { edt_label.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
+            iFontSize.let { searchViewBinding?.edtLabel?.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
 
-            val iFontTypeFaceName = typedArray.getString(R.styleable.SearchView_fontStyleName)
-            iFontTypeFaceName?.let {
-                FontUtils.setCustomFont(context, edt_label, it)
-            } ?: kotlin.run {
-                FontUtils.setCustomFont(context, edt_label, FontUtils.FONT_MEDIUM)
-            }
+              val iFontTypeFaceName = typedArray.getString(R.styleable.SearchView_fontStyleName)
+              iFontTypeFaceName?.let {
+                  searchViewBinding?.edtLabel?.let { it1 -> FontUtils.setCustomFont(context, it1, it) }
+              } ?: kotlin.run {
+                  searchViewBinding?.edtLabel?.let { FontUtils.setCustomFont(context, it, FontUtils.FONT_MEDIUM) }
+              }
         }
     }
 
@@ -59,62 +64,62 @@ class MySearchView @JvmOverloads constructor(
      *
      * @param context the context
      */
-    open fun initView(context: Context) {
+    private fun initView(context: Context) {
         setBgColor(R.color.white)
         setAlphaSearchView(0.5f)
     }
 
     private fun initListener() {
-        iv_left?.setOnClickListener {
-            mOnSearchViewClickListener?.let { it.onIconLeftClick() }
+        searchViewBinding?.ivLeft?.setOnClickListener {
+            mOnSearchViewClickListener?.onIconLeftClick()
         }
 
-        iv_right?.setOnClickListener {
-            mOnSearchViewClickListener?.let { it.onIconRightClick() }
+        searchViewBinding?.ivRight?.setOnClickListener {
+            mOnSearchViewClickListener?.onIconRightClick()
 
-            edt_label?.setText("")
+            searchViewBinding?.edtLabel?.setText("")
 
-            edt_label?.requestFocus()
+            searchViewBinding?.edtLabel?.requestFocus()
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edt_label, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(searchViewBinding?.edtLabel, InputMethodManager.SHOW_IMPLICIT)
         }
 
         setOnClickListener {
-            mOnSearchViewClickListener?.let { it.onItemClick() }
-            edt_label?.requestFocus()
+            mOnSearchViewClickListener?.onItemClick()
+            searchViewBinding?.edtLabel?.requestFocus()
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(edt_label, InputMethodManager.SHOW_IMPLICIT)
         }
 
-        edt_label?.setOnFocusChangeListener { _, hasFocus ->
+        searchViewBinding?.edtLabel?.setOnFocusChangeListener { _, hasFocus ->
             mOnSearchViewClickListener?.onFocusChangeSearchViewListener(hasFocus)
-            iv_right?.visibility = if (hasFocus) View.VISIBLE else View.GONE
+            searchViewBinding?.ivRight?.visibility = if (hasFocus) View.VISIBLE else View.GONE
 
             if (hasFocus) {
                 setAlphaSearchView(1.0f)
-                edt_label?.text?.let {
-                    if (!edt_label.text.isNullOrEmpty()) {
-                        edt_label.setSelection(edt_label.text.length)
+                searchViewBinding?.edtLabel?.text?.let {
+                    if (!searchViewBinding?.edtLabel?.text.isNullOrEmpty()) {
+                        searchViewBinding?.edtLabel?.setSelection(searchViewBinding?.edtLabel?.text.toString().length)
                     }
                 }
-                iv_right?.visibility = if (!TextUtils.isEmpty(edt_label?.text)) View.VISIBLE
+                searchViewBinding?.ivRight?.visibility = if (!TextUtils.isEmpty(searchViewBinding?.edtLabel?.text)) View.VISIBLE
                 else View.GONE
             } else {
                 setAlphaSearchView(0.5f)
-                edt_label?.text?.let {
-                    iv_right?.visibility = if (!TextUtils.isEmpty(edt_label?.text)) View.VISIBLE
+                searchViewBinding?.edtLabel?.text?.let {
+                    iv_right?.visibility = if (!TextUtils.isEmpty(searchViewBinding?.edtLabel?.text)) View.VISIBLE
                     else View.GONE
                 }
             }
         }
-        edt_label?.addTextChangedListener(object : TextWatcher {
+        searchViewBinding?.edtLabel?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 mOSearchKeyChangeListener?.onSearchKeyChanged(p0.toString())
-                iv_right?.visibility = if (!TextUtils.isEmpty(edt_label?.text)) View.VISIBLE
+                searchViewBinding?.ivRight?.visibility = if (!TextUtils.isEmpty(edt_label?.text)) View.VISIBLE
                 else View.GONE
             }
 
@@ -131,7 +136,7 @@ class MySearchView @JvmOverloads constructor(
      * @param label
      */
     fun setLabel(label: String) {
-        label?.let { edt_label.setText(it) }
+        label?.let {  searchViewBinding?.edtLabel?.setText(it) }
     }
 
     /**
@@ -140,7 +145,7 @@ class MySearchView @JvmOverloads constructor(
      * @param labelHint
      */
     fun setLabelHint(labelHint: String) {
-        labelHint?.let { edt_label.hint = labelHint }
+        labelHint.let { searchViewBinding?.edtLabel?.hint = labelHint }
     }
 
     /**
@@ -150,10 +155,10 @@ class MySearchView @JvmOverloads constructor(
      */
     fun setIconLeft(imageResource: Int) {
         if (imageResource != 0) {
-            iv_left?.setImageResource(imageResource)
-            iv_left?.visibility = View.VISIBLE
+            searchViewBinding?.ivLeft?.setImageResource(imageResource)
+            searchViewBinding?.ivLeft?.visibility = View.VISIBLE
         } else {
-            iv_left?.visibility = View.GONE
+            searchViewBinding?.ivLeft?.visibility = View.GONE
         }
     }
 
@@ -164,10 +169,10 @@ class MySearchView @JvmOverloads constructor(
      */
     fun setIconRight(imageResource: Int) {
         if (imageResource != 0) {
-            iv_right?.setImageResource(imageResource)
-            iv_right?.visibility = View.VISIBLE
+            searchViewBinding?.ivRight?.setImageResource(imageResource)
+            searchViewBinding?.ivRight?.visibility = View.VISIBLE
         } else {
-            iv_right?.visibility = View.GONE
+            searchViewBinding?.ivRight?.visibility = View.GONE
         }
     }
 
@@ -178,7 +183,7 @@ class MySearchView @JvmOverloads constructor(
      * @param textColor
      */
     fun setTextColor(textColor: Int) {
-        edt_label?.setTextColor(ContextCompat.getColor(context, textColor))
+        searchViewBinding?.edtLabel?.setTextColor(ContextCompat.getColor(context, textColor))
     }
 
     /**
@@ -191,9 +196,9 @@ class MySearchView @JvmOverloads constructor(
     }
 
     fun setAlphaSearchView(iAlpha: Float) {
-        iv_left.alpha = iAlpha
-        edt_label.alpha = iAlpha
-        iv_right.alpha = iAlpha
+        searchViewBinding?.ivLeft?.alpha = iAlpha
+        searchViewBinding?.edtLabel?.alpha = iAlpha
+        searchViewBinding?.ivRight?.alpha = iAlpha
     }
 
     fun getEdtSearch(): EditText {
