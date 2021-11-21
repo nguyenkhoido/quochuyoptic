@@ -9,30 +9,29 @@ import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.base.BaseRecyclerAdapter
 import com.vn.quochuyapplication.base.BaseViewHolder
 import com.vn.quochuyapplication.data.model.IProduct
+import com.vn.quochuyapplication.data.model.ProductId
 
-class ProductAdapter(
+class ProductQRCodeAdapter(
     context: Context,
-    productList: MutableList<IProduct>,
+    qrCodeList: MutableList<ProductId>,
     private val itemProductClick: ItemProductClick
-) : BaseRecyclerAdapter<IProduct, ProductAdapter.ProductViewHolder?>(context, productList) {
+) : BaseRecyclerAdapter<ProductId, ProductQRCodeAdapter.ProductViewHolder?>(context, qrCodeList) {
 
     interface ItemProductClick {
-        fun onItemClick(iProduct: IProduct)
-        fun onItemLongClick(iProduct: IProduct)
+        fun onItemClick(iProduct: ProductId)
+        fun onItemLongClick(iProduct: ProductId)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val itemView: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_product, parent, false)
+            .inflate(R.layout.item_code, parent, false)
         return ProductViewHolder(itemView, itemProductClick)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product: IProduct = dataList[position]
-        val itemProductName = holder.itemProductName
-        itemProductName.text = "Tên SP: " + product.productName()
-        val itemProductCode = holder.itemProductCode
-        itemProductCode.text = "Mã SP: " + product.productCode()
+        val product: ProductId = dataList[position]
+        val itemProductName = holder.itemQRCodeValue
+        itemProductName.text = "Mã QR Code: " + product.productQRCode
     }
 
 
@@ -40,8 +39,7 @@ class ProductAdapter(
         productView: View,
         private val itemProductClick: ItemProductClick
     ) : BaseViewHolder(productView), View.OnClickListener, View.OnLongClickListener {
-        val itemProductCode: TextView = productView.findViewById(R.id.text_product_code)
-        val itemProductName: TextView = productView.findViewById(R.id.text_product_name)
+        val itemQRCodeValue: TextView = productView.findViewById(R.id.text_product_code)
 
         override fun onBind(position: Int) {}
         override fun onClick(p0: View) {

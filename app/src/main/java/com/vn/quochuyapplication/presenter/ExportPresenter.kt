@@ -8,7 +8,9 @@ import com.vn.quochuyapplication.data.model.IProduct
 import com.vn.quochuyapplication.data.model.SellItem
 import com.vn.quochuyapplication.ui.export.IExportView
 import com.vn.quochuyapplication.utils.DateTimeUtil
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class ExportPresenter @Inject constructor(var dataManager: DataManager) : RxPresenter<IExportView>() {
 
@@ -17,6 +19,7 @@ class ExportPresenter @Inject constructor(var dataManager: DataManager) : RxPres
         sellItem.productCode = product?.productCode()
         sellItem.productPrice = product?.productPrice() ?: 0
         sellItem.sellDate = DateTimeUtil.getTimeStamp()
+        sellItem.sellDateAsTimeStamp = Calendar.getInstance().timeInMillis
         return sellItem
     }
 

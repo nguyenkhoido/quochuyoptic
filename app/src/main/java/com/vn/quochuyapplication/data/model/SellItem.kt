@@ -10,5 +10,6 @@ import kotlinx.android.parcel.Parcelize
 open class SellItem : RealmObject(), Parcelable {
     var productCode: String? = null
     var sellDate: String? = null
+    var sellDateAsTimeStamp: Long? = null
     var productPrice = 0
 }

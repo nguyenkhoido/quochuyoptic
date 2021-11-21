@@ -21,6 +21,6 @@
         android:title="@string/title_customer" />
 
     <item android:id="@+id/navigation_product_code"
-        android:icon="@drawable/ic_baseline_group_24"
+        android:icon="@drawable/ic_baseline_backup_24"
         android:title="Mã sản phẩm"/>
 </menu>

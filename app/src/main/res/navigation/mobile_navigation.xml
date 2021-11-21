@@ -36,5 +36,5 @@
         android:id="@+id/navigation_product_code"
         tools:layout="@layout/fragment_product_id"
         android:name="com.vn.quochuyapplication.ui.qrcode.ProductIdFragment"
-        android:label="ProductIdFragment" />
+        android:label="Mã QR Code" />
 </navigation>

@@ -84,6 +84,10 @@ class DataManager @Inject constructor(
         return dbHelper.getSellItem()
     }
 
+    override fun getSellItemWithFilter(startTime: Long, endTime: Long): Flowable<RealmResults<SellItem>> {
+        return dbHelper.getSellItemWithFilter(startTime, endTime)
+    }
+
     override fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?) {
         dbHelper.saveCustomer(customer, onDone, onFail)
     }

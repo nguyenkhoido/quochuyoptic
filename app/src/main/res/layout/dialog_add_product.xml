@@ -83,10 +83,10 @@
                     android:layout_height="@dimen/edt_text_height"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
+                    android:autofillHints="Giá"
                     android:imeOptions="actionDone"
-                    android:text="0"
                     android:inputType="number"
-                    android:autofillHints="Giá" />
+                    android:text="0" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -123,12 +123,30 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/btnAddProduct"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/edt_text_height"
-        android:layout_margin="@dimen/_8sdp"
-        android:text="Thêm"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnSaveCode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edt_text_height"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:text="Lưu mã"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnAddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edt_text_height"
+            android:layout_margin="@dimen/_8sdp"
+            android:text="Thêm" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

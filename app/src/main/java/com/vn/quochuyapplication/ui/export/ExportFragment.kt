@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.google.zxing.integration.android.IntentIntegrator
 import com.vn.quochuyapplication.QHApplication
 import com.vn.quochuyapplication.R
 import com.vn.quochuyapplication.base.BaseFragment
@@ -46,15 +47,17 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
     override fun initViews() {
         setUpCategorySpinner()
         _exportBinding?.buttonScanQrcode?.setOnClickListener {
-            try {
-                val intent = Intent("com.google.zxing.client.android.SCAN")
-                intent.putExtra("SCAN_MODE", "QR_CODE_MODE") // "PRODUCT_MODE for bar codes
-                startActivityForResult(intent, 79)
-            } catch (e: Exception) {
-                val marketUri: Uri = Uri.parse("market://details?id=com.google.zxing.client.android")
-                val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
-                startActivity(marketIntent)
-            }
+            /* try {
+                 val intent = Intent("com.google.zxing.client.android.SCAN")
+                 intent.putExtra("SCAN_MODE", "QR_CODE_MODE") // "PRODUCT_MODE for bar codes
+                 startActivityForResult(intent, 79)
+             } catch (e: Exception) {
+                 val marketUri: Uri = Uri.parse("market://details?id=com.google.zxing.client.android")
+                 val marketIntent = Intent(Intent.ACTION_VIEW, marketUri)
+                 startActivity(marketIntent)
+             }*/
+
+            activity?.startActivity(Intent(context, BarCodeScannerActivity::class.java))
         }
         _exportBinding?.buttonFind?.setOnClickListener {
             mIProduct = presenter.dataManager.getProductByCode(_exportBinding?.editFind?.text.toString(), _exportBinding?.spinnerCategory?.selectedItem.toString())
@@ -78,6 +81,7 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
                 }
                 val sellItem = presenter.convertToSellItem(mIProduct)
                 mArraySellItem!!.add(sellItem)
+                _exportBinding?.cardProductInfo?.visibility = View.GONE
                 presenter.saveSellItemIntoDB(mArraySellItem as ArrayList<SellItem>?)
             }
         }
@@ -118,10 +122,6 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
 
             if (null != productConvert) {
                 _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
-                //_exportBinding?.textProductCompany?.text = "Công ty: ${productConvert.productCompany}"
-                //_exportBinding?.textProductName?.text = ""
-               // _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
-                //_exportBinding?.textProductQuantity?.text = "Số lượng: ${productConvert.productQuantity}"
             } else {
                 Toast.makeText(requireContext(), R.string.str_empty_list, Toast.LENGTH_SHORT).show()
             }

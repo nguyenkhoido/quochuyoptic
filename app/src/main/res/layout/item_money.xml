@@ -10,19 +10,22 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_42sdp"
         android:layout_weight="1"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="@dimen/_14ssp" />
 
     <TextView
         android:id="@+id/text_product_code"
         android:layout_width="0dp"
         android:layout_height="@dimen/_42sdp"
         android:layout_weight="1"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="@dimen/_14ssp" />
 
     <TextView
         android:id="@+id/text_product_price"
         android:layout_width="0dp"
         android:layout_height="@dimen/_42sdp"
         android:layout_weight="1"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="@dimen/_14ssp" />
 </LinearLayout>

@@ -1,16 +1,10 @@
 package com.vn.quochuyapplication.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.SpannableStringBuilder
-import android.text.TextUtils
-import android.text.TextWatcher
+import android.text.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.android.tools.build.jetifier.core.utils.Log
@@ -22,10 +16,8 @@ import com.vn.quochuyapplication.constant.AppConstants
 import com.vn.quochuyapplication.constant.Category
 import com.vn.quochuyapplication.data.model.*
 import com.vn.quochuyapplication.databinding.DialogAddProductBinding
-import com.vn.quochuyapplication.eventbus.AddProductEvent
 import com.vn.quochuyapplication.ui.company.product.IProductListener
 import com.vn.quochuyapplication.utils.StringUtils
-import org.greenrobot.eventbus.EventBus
 
 class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatcher {
     private var dialogAddProductBinding: DialogAddProductBinding? = null
@@ -60,6 +52,7 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialogAddProductBinding = DialogAddProductBinding.inflate(inflater, container, false)
         dialogAddProductBinding?.btnAddProduct?.setOnClickListener(this)
+        dialogAddProductBinding?.btnSaveCode?.setOnClickListener(this)
         dialogAddProductBinding?.edtPrice?.addTextChangedListener(this)
         dialogAddProductBinding?.edtPrice?.filters = arrayOf(InputFilter.LengthFilter(10))
         return dialogAddProductBinding?.root
@@ -88,6 +81,7 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
                 dialogAddProductBinding?.edtPrice?.setText(productPrice)
                 val productConvert = ProductConvert(productCode ?: "")
                 dialogAddProductBinding?.edtMergedValue?.setText(QHApplication.getInstance().getGSon().toJson(productConvert))
+                dialogAddProductBinding?.btnSaveCode?.visibility = View.VISIBLE
             } else {
                 when (mCurrentCategory) {
                     Category.GONG_KINH -> dialogAddProductBinding?.edtCode?.setText("GK")
@@ -122,19 +116,43 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
         when (v) {
             dialogAddProductBinding?.btnAddProduct -> {
                 val dataManager: DataManager? = (_mActivity?.application as QHApplication).mAppComponent?.getDataManager()
-
-                if (null != mItemProduct) {
-                    updateProduct(
-                        dataManager, mItemProduct?.productId(), dialogAddProductBinding?.edtName?.text.toString(),
+                if (validateInputData(
+                        dialogAddProductBinding?.edtName?.text.toString(),
                         dialogAddProductBinding?.edtCode?.text.toString(),
-                        dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt(),
-                        dialogAddProductBinding?.edtQuantity?.text.toString().toInt(),
-                        mItemProduct?.productCategory() ?: ""
+                        dialogAddProductBinding?.edtQuantity?.text.toString(),
+                        dialogAddProductBinding?.edtPrice?.text.toString()
                     )
+                ) {
+                    if (null != mItemProduct) {
+                        updateProduct(
+                            dataManager, mItemProduct?.productId(), dialogAddProductBinding?.edtName?.text.toString(),
+                            dialogAddProductBinding?.edtCode?.text.toString(),
+                            dialogAddProductBinding?.edtPrice?.text.toString().replace(",", "").toInt(),
+                            dialogAddProductBinding?.edtQuantity?.text.toString().toInt(),
+                            mItemProduct?.productCategory() ?: ""
+                        )
+                    } else {
+                        mItemProduct = addProduct(dataManager)
+                        mItemProduct?.let { mIProductListener?.onAddProductSuccess(it) }
+                        dismiss()
+                    }
                 } else {
-                    mItemProduct = addProduct(dataManager)
-                    mItemProduct?.let { mIProductListener?.onAddProductSuccess(it) }
-                    dismiss()
+                    Toast.makeText(context, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show()
+                }
+            }
+            dialogAddProductBinding?.btnSaveCode -> {
+                val dataManager: DataManager? = (_mActivity?.application as QHApplication).mAppComponent?.getDataManager()
+                if (dialogAddProductBinding?.edtMergedValue?.text.toString().isNotEmpty()) {
+                    val productId = ProductId()
+                    productId.productQRCode = dialogAddProductBinding?.edtMergedValue?.text.toString()
+                    dataManager?.saveProductId(productId, {
+                        mIProductListener?.onSaveQrCodeContentSuccess(dialogAddProductBinding?.edtMergedValue?.text.toString())
+                        dismiss()
+                    }, {
+                        Toast.makeText(context, "Lưu mã qr code thất bại", Toast.LENGTH_SHORT).show()
+                    })
+                } else {
+                    Toast.makeText(context, "Không bỏ trống", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -288,5 +306,9 @@ class DialogAddProduct : SimpleDialogFragment(), View.OnClickListener, TextWatch
 
     override fun afterTextChanged(s: Editable?) {
 
+    }
+
+    private fun validateInputData(prodName: String, prodCode: String, prodQuantity: String, prodPrice: String): Boolean {
+        return prodName.isNotEmpty() && prodCode.isNotEmpty() && (prodQuantity.isNotEmpty() && prodQuantity != "0") && (prodPrice.isNotEmpty() && prodPrice != "0")
     }
 }

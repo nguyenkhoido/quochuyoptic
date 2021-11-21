@@ -5,4 +5,5 @@ import com.vn.quochuyapplication.data.model.IProduct
 interface IProductListener {
     fun onAddProductSuccess(product: IProduct)
     fun onUpdateProductSuccess(productId: String)
+    fun onSaveQrCodeContentSuccess(productQRCode: String)
 }

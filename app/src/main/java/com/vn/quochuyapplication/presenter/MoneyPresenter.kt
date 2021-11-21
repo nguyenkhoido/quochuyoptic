@@ -11,9 +11,21 @@ import javax.inject.Inject
 
 class MoneyPresenter @Inject constructor(var dataManager: DataManager) : RxPresenter<IMoneyView>() {
 
-    fun loadSellItem() {
-        addSubscribe(dataManager.getSellItem().compose(RxUtils.rxSchedulerHelper()).subscribe({
+    /*fun loadSellItem(startTime: Long, endTime: Long) {
+        addSubscribe(dataManager.getSellItemWithFilter(startTime, endTime).compose(RxUtils.rxSchedulerHelper()).subscribe({
             if (it != null && it.size > 0) {
+                mView?.onLoadSellListSuccess(it)
+            } else {
+                mView?.onLoadSellListEmpty()
+            }
+        }, {
+            mView?.onLoadSellListFailed()
+        }))
+    }*/
+
+    fun loadSellItemWithFilter(startTime: Long, endTime: Long) {
+        addSubscribe(dataManager.getSellItemWithFilter(startTime, endTime).compose(RxUtils.rxSchedulerHelper()).subscribe({
+            if (!it.isNullOrEmpty()) {
                 mView?.onLoadSellListSuccess(it)
             } else {
                 mView?.onLoadSellListEmpty()
@@ -23,14 +35,6 @@ class MoneyPresenter @Inject constructor(var dataManager: DataManager) : RxPrese
         }))
     }
 
-    fun convertToSellItem(product: IProduct?): SellItem {
-        val sellItem = SellItem()
-        sellItem.productCode = product?.productCode()
-        sellItem.productPrice = product?.productPrice() ?: 0
-        sellItem.sellDate = DateTimeUtil.getTimeStamp()
-        return sellItem
-    }
-
     fun saveSellItemIntoDB(sellItem: ArrayList<SellItem>?) {
         dataManager.saveSellItem(sellItem, {
 
@@ -38,4 +42,6 @@ class MoneyPresenter @Inject constructor(var dataManager: DataManager) : RxPrese
 
         })
     }
+
+
 }

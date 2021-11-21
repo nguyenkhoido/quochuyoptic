@@ -7,6 +7,7 @@ import io.reactivex.Flowable
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
+import io.realm.Sort
 import javax.inject.Inject
 
 class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelper {
@@ -189,7 +190,11 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
     }
 
     override fun getSellItem(): Flowable<RealmResults<SellItem>> {
-        return realmLocalDB.where(SellItem::class.java).findAll().asFlowable()
+        return realmLocalDB.where(SellItem::class.java).sort("sellDateAsTimeStamp", Sort.DESCENDING).findAll().asFlowable()
+    }
+
+    override fun getSellItemWithFilter(startTime: Long, endTime: Long): Flowable<RealmResults<SellItem>> {
+        return realmLocalDB.where(SellItem::class.java).between("sellDateAsTimeStamp", startTime, endTime).findAll().asFlowable()
     }
 
     override fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?) {

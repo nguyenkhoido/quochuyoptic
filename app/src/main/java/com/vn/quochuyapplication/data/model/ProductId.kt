@@ -6,5 +6,5 @@ open class ProductId : RealmObject() {
     companion object {
         const val PRODUCT_ID_FIELD = "id"
     }
-    lateinit var productId: String
+    lateinit var productQRCode: String
 }
