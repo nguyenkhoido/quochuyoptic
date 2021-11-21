@@ -232,13 +232,19 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }, { onDone?.run() }, { onFail?.run() })
     }
 
-    override fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?) {
-        realmLocalDB.executeTransactionAsync({
+    override fun deleteCustomer(customer: Customer?) {
+        realmLocalDB.executeTransaction{
+            val customerInDB = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customer?.id)?.findFirst()
+            customerInDB?.deleteFromRealm()
+        }
+
+
+        /*realmLocalDB.executeTransactionAsync({
             val customerInDB = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customer?.id)?.findFirst()
             customerInDB?.deleteFromRealm()
         }, { onDone?.run() }, {
             onFail?.run()
-        })
+        })*/
     }
 
     override fun getCustomer(customerId: String?): Customer {

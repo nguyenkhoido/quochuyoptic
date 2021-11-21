@@ -109,8 +109,8 @@ class DataManager @Inject constructor(
         dbHelper.updateCustomer(id, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, onDone, onFail)
     }
 
-    override fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?) {
-        dbHelper.deleteCustomer(customer, onDone, onFail)
+    override fun deleteCustomer(customer: Customer?) {
+        dbHelper.deleteCustomer(customer)
     }
 
     override fun getCustomer(customerId: String?): Customer {

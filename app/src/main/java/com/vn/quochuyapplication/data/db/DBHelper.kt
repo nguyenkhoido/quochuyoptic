@@ -47,7 +47,7 @@ interface DBHelper {
         amount: String, onDone: Runnable?, onFail: Runnable?
     )
 
-    fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?)
+    fun deleteCustomer(customer: Customer?)
     fun getCustomer(customerId: String?): Customer
     fun getCustomerList(): MutableList<Customer>?
 

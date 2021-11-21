@@ -52,7 +52,7 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
     override fun initData() {
 
         try {
-            mCustomerObj = requireArguments().getParcelable<Customer>(AppConstants.KEY_OBJ_CUSTOMER)
+            mCustomerObj = requireArguments().getParcelable(AppConstants.KEY_OBJ_CUSTOMER)
         } catch (ex: IllegalStateException) {
 
         }

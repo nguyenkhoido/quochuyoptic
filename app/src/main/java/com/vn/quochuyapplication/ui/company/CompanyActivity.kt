@@ -60,47 +60,9 @@ class CompanyActivity : BaseActivity<CompanyPresenter>(), ICompanyInteracted.ICo
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onProductAdd(event: AddProductEvent) {
         when (event.event) {
-            /*AddProductEvent.ADD_PRODUCT -> {
-                if (mProductList.isNotEmpty()) {
-                    mProductList.add(event.product!!)
-                    mProductAdapter.update(mProductList)
-                }
-            }*/
+
         }
     }
-
-    /*override fun onGetProductSuccess(productList: MutableList<IProduct>) {
-
-    }
-
-    override fun onGetProductFailed() {
-    }
-
-    override fun onItemClick(iProduct: IProduct) {
-        DialogAddProduct.newInstance(iProduct).show(supportFragmentManager, DialogAddProduct::class.java.simpleName)
-    }
-
-    override fun onItemLongClick(iProduct: IProduct) {
-       MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialog_MaterialComponents)
-            .setIcon(android.R.drawable.stat_sys_warning)
-            .setTitle("Xóa Sản Phẩm")
-            .setMessage("Bạn có chắc muốn xóa sản phẩm này?")
-            .setPositiveButton("Xóa") { dialog, which ->
-                mPresenter.dataManager.deleteProduct(iProduct)
-                dialog.dismiss()
-            }.setNegativeButton("Hủy") { dialog, which ->
-                dialog.dismiss()
-            }.show()
-
-    }
-
-    override fun onClick(v: View?) {
-        when (v) {
-            companyBinding.floatAddProduct -> {
-                DialogAddProduct.newInstance(mCompanyName).show(supportFragmentManager, DialogAddProduct::class.java.simpleName)
-            }
-        }
-    }*/
 
     override fun onStop() {
         super.onStop()

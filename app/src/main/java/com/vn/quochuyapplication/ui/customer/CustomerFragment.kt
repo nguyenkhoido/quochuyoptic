@@ -116,15 +116,13 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
             .setTitle("Xóa Khách Hàng")
             .setMessage("Bạn có chắc muốn xóa khách hàng này?")
             .setPositiveButton("Xóa") { dialog, which ->
-                presenter.dataManager.deleteCustomer(customer, {
-                    presenter.mAllCustomerList?.removeIf { it?.id == customer?.id }
-                    mCustomerAdapter?.update(presenter.mAllCustomerList)
-                }, {
-                    Toast.makeText(requireContext(), "Xóa không thành công", Toast.LENGTH_SHORT).show()
-                })
+                presenter.dataManager.deleteCustomer(customer)
                 dialog.dismiss()
             }.setNegativeButton("Hủy") { dialog, which ->
                 dialog.dismiss()
+            }.setOnDismissListener {
+                presenter.mAllCustomerList?.removeIf { it?.id == customer?.id }
+                mCustomerAdapter?.update(presenter.mAllCustomerList)
             }.show()
     }
 
