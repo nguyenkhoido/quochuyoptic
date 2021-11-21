@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddProduct"
+        app:layout_constraintBottom_toTopOf="@+id/ln_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -124,6 +124,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/ln_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
