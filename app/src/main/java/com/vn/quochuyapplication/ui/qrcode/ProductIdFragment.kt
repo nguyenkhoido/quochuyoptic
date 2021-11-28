@@ -10,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import com.google.gson.Gson
 import com.vn.quochuyapplication.adapter.ProductQRCodeAdapter
 import com.vn.quochuyapplication.base.BaseFragment
+import com.vn.quochuyapplication.data.model.ProductConvert
 import com.vn.quochuyapplication.data.model.ProductId
 import com.vn.quochuyapplication.databinding.FragmentProductIdBinding
 import com.vn.quochuyapplication.presenter.ProductIdPresenter
@@ -49,6 +51,10 @@ class ProductIdFragment : BaseFragment<ProductIdPresenter>(), IProductIdView, Pr
     }
 
     override fun onItemLongClick(iProduct: ProductId) {
-
+        val productConvert = ProductConvert(iProduct.productCode.toString(), iProduct.productCategory.toString())
+        val clipboard = activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+        val clip = ClipData.newPlainText("Nội dung QR Code", Gson().toJson(productConvert))
+        clipboard?.setPrimaryClip(clip)
+        Toast.makeText(requireContext(), "Đã copy nội dung tạo QR Code", Toast.LENGTH_SHORT).show()
     }
 }

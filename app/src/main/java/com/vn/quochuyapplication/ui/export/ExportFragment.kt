@@ -154,11 +154,12 @@ class ExportFragment : BaseFragment<ExportPresenter>(), AdapterView.OnItemSelect
                             mIProduct = presenter.dataManager.getProductByCode(qrCodeConvert.productCode, qrCodeConvert.productCategory)
                             if (mIProduct != null) {
                                 _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
-                                _exportBinding?.cardProductInfo?.visibility = View.VISIBLE
                                 _exportBinding?.textProductCompany?.text = "Công ty: ${mIProduct?.productCompanyName()}"
                                 _exportBinding?.textProductName?.text = "Sản phẩm: ${mIProduct?.productName()}"
                                 _exportBinding?.textProductPrice?.text = "Giá SP: ${StringUtils.customFormatVND(mIProduct?.productPrice()?.toDouble())}"
                                 _exportBinding?.textProductQuantity?.text = "Số lượng: ${mIProduct?.productQuantity().toString()}"
+                            } else {
+                                Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
