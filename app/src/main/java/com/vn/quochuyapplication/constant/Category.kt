@@ -1,8 +1,8 @@
 package com.vn.quochuyapplication.constant
 
 object Category {
-    const val GONG_KINH = "Gọng Kính"
+    const val GONG_KINH = "Gong Kinh"
     const val LENSE = "Lense"
-    const val OTHER = "Khác"
-    const val TRONG_KINH = "Tròng Kính"
+    const val OTHER = "Khac"
+    const val TRONG_KINH = "Trong Kinh"
 }

@@ -31,10 +31,10 @@ interface DBHelper {
     fun getSellItem(): Flowable<RealmResults<SellItem>>
 
     fun getSellItemWithFilter(startTime: Long, endTime: Long): Flowable<RealmResults<SellItem>>
+
     //Customer
     fun saveCustomer(customer: Customer, onDone: Runnable?, onFail: Runnable?)
     fun updateCustomer(
-        id: String,
         gender: Int,
         customerName: String,
         customerPhone: String,
@@ -47,7 +47,7 @@ interface DBHelper {
         amount: String, onDone: Runnable?, onFail: Runnable?
     )
 
-    fun deleteCustomer(customer: Customer?)
+    fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?)
     fun getCustomer(customerId: String?): Customer
     fun getCustomerList(): MutableList<Customer>?
 

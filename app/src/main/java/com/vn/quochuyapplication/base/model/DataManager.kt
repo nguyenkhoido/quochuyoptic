@@ -93,7 +93,6 @@ class DataManager @Inject constructor(
     }
 
     override fun updateCustomer(
-        id: String,
         gender: Int,
         customerName: String,
         customerPhone: String,
@@ -106,11 +105,11 @@ class DataManager @Inject constructor(
         amount: String,
         onDone: Runnable?, onFail: Runnable?
     ) {
-        dbHelper.updateCustomer(id, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, onDone, onFail)
+        dbHelper.updateCustomer(gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, onDone, onFail)
     }
 
-    override fun deleteCustomer(customer: Customer?) {
-        dbHelper.deleteCustomer(customer)
+    override fun deleteCustomer(customer: Customer?,onDone: Runnable?, onFail: Runnable?) {
+        dbHelper.deleteCustomer(customer,onDone,onFail)
     }
 
     override fun getCustomer(customerId: String?): Customer {

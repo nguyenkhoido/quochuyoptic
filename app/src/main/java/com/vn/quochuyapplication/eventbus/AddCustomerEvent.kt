@@ -5,12 +5,12 @@ import com.vn.quochuyapplication.data.model.IProduct
 
 class AddCustomerEvent {
     var event: Int = -1
-    var customerId: String? = null
+    var customerPhone: String? = null
     var customer: Customer? = null
 
-    constructor(eventCase: Int, customerId: String) {
+    constructor(eventCase: Int, customerPhone: String) {
         this.event = eventCase
-        this.customerId = customerId
+        this.customerPhone = customerPhone
     }
 
     constructor(eventCase: Int, customer: Customer) {

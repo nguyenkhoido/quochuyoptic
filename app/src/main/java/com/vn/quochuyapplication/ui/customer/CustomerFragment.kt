@@ -40,7 +40,8 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         _customerBinding = FragmentCustomersBinding.inflate(inflater, container, false)
         _customerBinding?.let { mRootView = it.root }
         return mRootView
@@ -88,14 +89,14 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
     fun onCustomerAdd(event: AddCustomerEvent) {
         when (event.event) {
             AddCustomerEvent.ADD_CUSTOMER -> {
-                if (presenter.mAllCustomerList?.isNotEmpty() == true) {
-                    presenter.mAllCustomerList?.add(event.customer!!)
-                    mCustomerAdapter?.update(presenter.mAllCustomerList)
-                }
+                //if (presenter.mAllCustomerList?.isNotEmpty() == true) {
+                presenter.mAllCustomerList?.add(event.customer)
+                mCustomerAdapter?.update(presenter.mAllCustomerList)
+                //}
             }
             AddCustomerEvent.UPDATE_CUSTOMER -> {
                 if (presenter.mAllCustomerList?.isNotEmpty() == true) {
-                    val updatedCustomer = presenter.mAllCustomerList?.find { it?.id == event.customerId }
+                    val updatedCustomer = presenter.mAllCustomerList?.find { it?.phoneNumber == event.customerPhone }
                     mCustomerAdapter?.getPosition(updatedCustomer).also { position ->
                         position?.let { mCustomerAdapter?.notifyItemChanged(it) }
                     }
@@ -105,7 +106,7 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
     }
 
     override fun onItemClick(customer: Customer?) {
-        val customerObj = presenter.getCustomer(customerId = customer?.id ?: "")
+        val customerObj = presenter.getCustomer(customerId = customer?.customerId ?: "")
         DialogAddCustomer.newInstance(customerObj)
             .show(activity?.supportFragmentManager!!, DialogAddCustomer::class.java.simpleName)
     }
@@ -116,13 +117,17 @@ class CustomerFragment : BaseFragment<CustomerPresenter>(), ICustomerView,
             .setTitle("Xóa Khách Hàng")
             .setMessage("Bạn có chắc muốn xóa khách hàng này?")
             .setPositiveButton("Xóa") { dialog, which ->
-                presenter.dataManager.deleteCustomer(customer)
+                presenter.dataManager.deleteCustomer(customer, {
+                    /*presenter.mAllCustomerList?.removeIf { it?.id == customer?.id }
+                    mCustomerAdapter?.update(presenter.mAllCustomerList)*/
+                }, {
+                    Toast.makeText(activity, "Lỗi trong quá trình xóa", Toast.LENGTH_LONG).show()
+                })
                 dialog.dismiss()
             }.setNegativeButton("Hủy") { dialog, which ->
                 dialog.dismiss()
             }.setOnDismissListener {
-                presenter.mAllCustomerList?.removeIf { it?.id == customer?.id }
-                mCustomerAdapter?.update(presenter.mAllCustomerList)
+
             }.show()
     }
 

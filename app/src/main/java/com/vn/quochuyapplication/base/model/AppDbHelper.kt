@@ -204,7 +204,6 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
     }
 
     override fun updateCustomer(
-        id: String,
         gender: Int,
         customerName: String,
         customerPhone: String,
@@ -218,7 +217,7 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         onDone: Runnable?, onFail: Runnable?
     ) {
         realmLocalDB.executeTransactionAsync({
-            val customer = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, id).findFirst()
+            val customer = it.where(Customer::class.java).equalTo("phoneNumber", customerPhone).findFirst()
             customer?.gender = gender
             customer?.name = customerName
             customer?.phoneNumber = customerPhone
@@ -232,19 +231,12 @@ class AppDbHelper @Inject constructor(private val realmLocalDB: Realm) : DBHelpe
         }, { onDone?.run() }, { onFail?.run() })
     }
 
-    override fun deleteCustomer(customer: Customer?) {
-        realmLocalDB.executeTransaction{
-            val customerInDB = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customer?.id)?.findFirst()
-            customerInDB?.deleteFromRealm()
+    override fun deleteCustomer(customer: Customer?, onDone: Runnable?, onFail: Runnable?) {
+        realmLocalDB.executeTransaction {
+            val result = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customer?.customerId)?.findFirst()
+            result?.deleteFromRealm()
         }
 
-
-        /*realmLocalDB.executeTransactionAsync({
-            val customerInDB = it.where(Customer::class.java).equalTo(Customer.CUSTOMER_ID_FIELD, customer?.id)?.findFirst()
-            customerInDB?.deleteFromRealm()
-        }, { onDone?.run() }, {
-            onFail?.run()
-        })*/
     }
 
     override fun getCustomer(customerId: String?): Customer {

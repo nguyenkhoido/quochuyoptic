@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="product_array">
-        <item>Gọng Kính</item>
-        <item>Tròng Kính</item>
+        <item>Gong Kinh</item>
+        <item>Trong Kinh</item>
     </array>
     <array name="months_array">
         <item>Tháng 1</item>
@@ -19,7 +19,7 @@
         <item>Tháng 12</item>
     </array>
     <array name="gender_array">
-        <item>Nam</item>
-        <item>Nữ</item>
+        <item>Man</item>
+        <item>Woman</item>
     </array>
 </resources>

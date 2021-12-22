@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.EventBus
 class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.OnClickListener {
     private var dialogAddCustomerBinding: DialogAddCustomerBinding? = null
     private var mCurrentGender: String? = null
-    private var mCustomerAdapter: CustomerAdapter? = null
+    //private var mCustomerAdapter: CustomerAdapter? = null
     var mCustomerList: ArrayList<Customer?>? = null
     var mCustomerObj: Customer? = null
 
@@ -96,7 +96,7 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
                 val dataManager: DataManager? = (_mActivity?.application as QHApplication).mAppComponent?.getDataManager()
                 if (null != mCustomerObj) {
                     updateCustomer(
-                        dataManager, mCustomerObj?.id.toString(), if (mCurrentGender == "Nam") 1 else 0, dialogAddCustomerBinding?.edtName?.text.toString(),
+                        dataManager,if (mCurrentGender == "Nam") 1 else 0, dialogAddCustomerBinding?.edtName?.text.toString(),
                         dialogAddCustomerBinding?.edtPhone?.text.toString(),
                         dialogAddCustomerBinding?.edtAddress?.text.toString(),
                         dialogAddCustomerBinding?.edtDob?.text.toString(),
@@ -129,7 +129,7 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
             customer.frameType = dialogAddCustomerBinding?.edtFrame?.text.toString()
             customer.amount = dialogAddCustomerBinding?.edtAmount?.text.toString()
             mCustomerList?.add(customer)
-            mCustomerAdapter?.update(mCustomerList)
+            //mCustomerAdapter?.update(mCustomerList)
             dataManager?.saveCustomer(customer, {
                 EventBus.getDefault().post(AddCustomerEvent(AddCustomerEvent.ADD_CUSTOMER, customer))
                 dismiss()
@@ -143,7 +143,6 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
 
     private fun updateCustomer(
         dataManager: DataManager?,
-        customerId: String,
         gender: Int,
         customerName: String,
         customerPhone: String,
@@ -155,8 +154,8 @@ class DialogAddCustomer : SimpleDialogFragment(), OnItemSelectedListener, View.O
         frameType: String,
         amount: String
     ) {
-        dataManager?.updateCustomer(customerId, gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, {
-            EventBus.getDefault().post(AddCustomerEvent(AddCustomerEvent.UPDATE_CUSTOMER, customerId))
+        dataManager?.updateCustomer(gender, customerName, customerPhone, address, dob, leftDiop, rightDiop, glassType, frameType, amount, {
+            EventBus.getDefault().post(AddCustomerEvent(AddCustomerEvent.UPDATE_CUSTOMER, customerPhone))
             dismiss() }, { dismiss() })
     }
 }
